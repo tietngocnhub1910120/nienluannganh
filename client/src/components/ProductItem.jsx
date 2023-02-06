@@ -3,7 +3,7 @@ import srcProduct2 from "../assets/upload_large.webp";
 import { MdBookmark, MdAddShoppingCart, MdRemoveRedEye } from "react-icons/md";
 const ProductItem = () => {
   return (
-    <div className="flex flex-col text-center group relative overflow-hidden ">
+    <div className="flex flex-col text-center group relative overflow-hidden">
       <div className="flex">
         <img
           src={srcProduct1}

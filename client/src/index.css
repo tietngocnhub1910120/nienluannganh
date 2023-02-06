@@ -12,7 +12,13 @@
   .text-primary {
     color: #b49149;
   }
+  .border-primary {
+    border-color: #b49149;
+  }
   .app__container {
     @apply w-[1200px] container mx-auto;
+  }
+  .slide-img.active {
+    @apply border-primary;
   }
 }

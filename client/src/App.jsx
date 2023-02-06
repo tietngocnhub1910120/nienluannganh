@@ -1,9 +1,10 @@
 import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Products from "./pages/Products";
-import Header from "./pages/Header";
-import Footer from "./components/Footer";
+import ProductDetail from "./pages/ProductDetail";
 const App = () => {
   return (
     <div className="app w-full">
@@ -11,8 +12,9 @@ const App = () => {
         <Header />
       </div>
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/products/:productId" element={<ProductDetail />}></Route>
         <Route path="/products" element={<Products />}></Route>
+        <Route path="/" element={<Home />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />
