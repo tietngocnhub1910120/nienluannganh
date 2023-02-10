@@ -8,7 +8,7 @@ const ProductItem = () => {
         <img
           src={srcProduct1}
           alt=""
-          className="-ml-[300px] ease-linear duration-300 group-hover:ml-0"
+          className="-ml-[100%] ease-linear duration-300 group-hover:ml-0"
         />
         <img
           src={srcProduct2}
