@@ -15,7 +15,9 @@ const Header = () => {
       <div className="header__top flex justify-between items-center h-28">
         <div className="header__logo">
           <Link to="/">
-            <img src={logo} alt="logo" />
+            <figure>
+              <img src={logo} alt="logo" />
+            </figure>
           </Link>
         </div>
 
@@ -83,9 +85,11 @@ const Header = () => {
                 <span className="cart__price">$300000</span>
               </div>
               <div className="cart__controls flex justify-between mb-4 mx-3">
-                <span className="cart__view py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black  duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
-                  XEM GIỎ HÀNG
-                </span>
+                <Link to={"/cart"}>
+                  <span className="cart__view py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black  duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
+                    XEM GIỎ HÀNG
+                  </span>
+                </Link>
                 <span className="cart__payment py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
                   THANH TOÁN
                 </span>
