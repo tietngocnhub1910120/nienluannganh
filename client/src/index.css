@@ -24,4 +24,14 @@
   .slide-img.active {
     @apply border-primary;
   }
+  .custom-after {
+    content: "";
+    position: absolute;
+    right: -30px;
+    top: 0;
+    border-top: 32px solid transparent;
+    border-right: 32px solid transparent;
+    border-bottom: 32px solid transparent;
+    border-left: 32px solid #b49149;
+  }
 }

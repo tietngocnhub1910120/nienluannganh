@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import TrackingOrder from "./pages/TrackingOrder";
 import ProductDetail from "./pages/ProductDetail";
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/products" element={<Products />}></Route>
         <Route path="/cart/checkout" element={<Checkout />}></Route>
         <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/tracking-order" element={<TrackingOrder />}></Route>
         <Route path="/" element={<Home />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
