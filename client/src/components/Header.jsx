@@ -11,7 +11,7 @@ import {
 } from "react-icons/md";
 const Header = () => {
   return (
-    <section id="app-header" className="header">
+    <section className="header">
       <div className="header__top flex justify-between items-center h-28">
         <div className="header__logo">
           <Link to="/">
@@ -27,8 +27,39 @@ const Header = () => {
               <li className="header__control flex items-center cursor-pointer">
                 <MdPhone /> 0794290085
               </li>
-              <li className="header__control cursor-pointer">ĐĂNG KÝ</li>
-              <li className="header__control cursor-pointer">ĐĂNG NHẬP</li>
+              <li className="relative flex items-center gap-1 rounded p-1 group">
+                <figure className="w-6 h-6 rounded-full overflow-hidden">
+                  <img src={srcItem} alt="" />
+                </figure>
+                <span className="text-sm cursor-pointer font-light hover:text-black/70">
+                  Duong Thuong
+                </span>
+                <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
+                  <li className="mt-3 ml-3 hover:text-white/70">
+                    <Link to={"/user/profile"}>
+                      <span>Tài khoản của tôi</span>
+                    </Link>
+                  </li>
+                  <li className="mt-3 ml-3 hover:text-white/70">
+                    <Link to={"/user/purchase"}>
+                      <span>Đơn mua</span>
+                    </Link>
+                  </li>
+                  <li className="mt-3 ml-3 hover:text-white/70">
+                    <span>Đăng xuất</span>
+                  </li>
+                </ul>
+              </li>
+              <li className="header__control cursor-pointer">
+                <Link to={"/signup"}>
+                  <span>ĐĂNG KÝ</span>
+                </Link>
+              </li>
+              <li className="header__control cursor-pointer">
+                <Link to={"/signin"}>
+                  <span>ĐĂNG NHẬP</span>
+                </Link>
+              </li>
             </ul>
             <p className="header__sub text-sm">
               Miễn phí vận chuyển
@@ -45,18 +76,16 @@ const Header = () => {
                 2
               </span>
             </div>
-            <div className="cart__sub z-10 absolute -left-[288px] -translate-y-6 invisible  opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">
+            <div className="cart__sub z-10 absolute -left-[288px] -translate-y-6 invisible opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">
               <h3 className="cart__title font-bold py-2 border-b-2 pl-3">
                 Giỏ hàng của bạn
               </h3>
               <ul className="cart__list pt-3">
-                <li className="cart__item flex cursor-pointer mb-2 justify-between px-3 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
-                  <div className="cart__item-info flex gap-2 w-4/5">
-                    <img
-                      src={srcItem}
-                      alt=""
-                      className="cart__item-img w-11 h-11"
-                    />
+                <li className="cart__item flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
+                  <div className="cart__item-info flex tems-center gap-2 w-4/5">
+                    <figure className="cart__item-img w-11">
+                      <img src={srcItem} alt="" />
+                    </figure>
                     <span className="cart__item-name truncate">
                       Ghế đẩu sang trọng bật nhất việt nam
                     </span>
@@ -65,21 +94,21 @@ const Header = () => {
                     $300000
                   </span>
                 </li>
-                <li className="cart__item flex cursor-pointer mb-2 justify-between px-3 bg-white duration-200 ease-linear hover:bg-gray-400/25">
-                  <div className="cart__item-info flex gap-2 w-4/5">
-                    <img
-                      src={srcItem}
-                      alt=""
-                      className="cart__item-img w-11 h-11"
-                    />
+                <li className="cart__item flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
+                  <div className="cart__item-info flex tems-center gap-2 w-4/5">
+                    <figure className="cart__item-img w-11">
+                      <img src={srcItem} alt="" />
+                    </figure>
                     <span className="cart__item-name truncate">
                       Ghế đẩu sang trọng bật nhất việt nam
                     </span>
                   </div>
-                  <span className="cart__item-price">$300000</span>
+                  <span className="cart__item-price text-[#B49149]">
+                    $300000
+                  </span>
                 </li>
               </ul>
-              <div className="w-100 h-0.5 bg-black mb-4"></div>
+              <div className="w-100 h-0.5 bg-black my-4"></div>
               <div className="cart__total flex justify-between mb-4 mx-3">
                 <span className="font-bold">TỔNG TIỀN:</span>
                 <span className="cart__price">$300000</span>
@@ -90,9 +119,11 @@ const Header = () => {
                     XEM GIỎ HÀNG
                   </span>
                 </Link>
-                <span className="cart__payment py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
-                  THANH TOÁN
-                </span>
+                <Link to={"/cart/checkout"}>
+                  <span className="cart__payment py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
+                    THANH TOÁN
+                  </span>
+                </Link>
               </div>
             </div>
           </div>
@@ -101,12 +132,14 @@ const Header = () => {
       <div className="header__bottom h-14 border-t-2 flex justify-between items-center">
         <ul className="header__nav flex gap-7">
           <li className="header__nav-item cursor-pointer ">
-            <span
-              className="header__nav-link hover:text-[#B49149] text-base font-medium"
-              title="TRANG CHỦ"
-            >
-              TRANG CHỦ
-            </span>
+            <Link to={"/"}>
+              <span
+                className="header__nav-link hover:text-[#B49149] text-base font-medium"
+                title="TRANG CHỦ"
+              >
+                TRANG CHỦ
+              </span>
+            </Link>
           </li>
           <li className="header__nav-item relative cursor-pointer text-base font-medium">
             <Link

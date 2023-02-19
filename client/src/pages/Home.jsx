@@ -1,9 +1,9 @@
-import SliderPage from "../components/Slide";
+import SliderComponent from "../components/Slider";
 import ProductList from "../components/ProductList";
 const Home = () => {
   return (
     <div className="mt-4">
-      <SliderPage />
+      <SliderComponent />
       <ProductList />
     </div>
   );
