@@ -10,7 +10,7 @@
     background-color: #b49149;
   }
   .bg-hover {
-    background-color: #d9bb36;
+    background-color: #aa8b4c;
   }
   .text-primary {
     color: #b49149;
@@ -33,5 +33,11 @@
     border-right: 32px solid transparent;
     border-bottom: 32px solid transparent;
     border-left: 32px solid #b49149;
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      max-width: 100%;
+    }
   }
 }

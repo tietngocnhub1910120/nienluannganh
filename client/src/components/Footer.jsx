@@ -8,8 +8,8 @@ import {
 } from "react-icons/md";
 const Footer = () => {
   return (
-    <div className="mt-12 bg-black">
-      <div className="app__container py-11">
+    <footer className="mt-11 bg-black">
+      <div className="app__container py-16">
         <div className="grid grid-cols-4 gap-x-4">
           <div>
             <h5 className="font-bold text-white mb-4">GIỚI THIỆU</h5>
@@ -121,7 +121,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

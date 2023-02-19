@@ -7,11 +7,9 @@ import { useState } from "react";
 
 const Checkout = () => {
   const [quantity, setQuantity] = useState(1);
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-  const handleReduced = () => {
-    setQuantity(quantity - 1);
+  const handleIncrement = (count) => {
+    if (quantity === 1 && count === -1) return;
+    setQuantity(quantity + count);
   };
   return (
     <div className="app__container">
@@ -32,7 +30,9 @@ const Checkout = () => {
               <div className="flex">
                 <span
                   className="text-lg cursor-pointer"
-                  onClick={handleReduced}
+                  onClick={() => {
+                    handleIncrement(-1);
+                  }}
                 >
                   -
                 </span>
@@ -45,7 +45,9 @@ const Checkout = () => {
                 />
                 <span
                   className="text-lg cursor-pointer"
-                  onClick={handleIncrement}
+                  onClick={() => {
+                    handleIncrement(1);
+                  }}
                 >
                   +
                 </span>

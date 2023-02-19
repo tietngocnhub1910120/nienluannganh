@@ -4,8 +4,9 @@ import srcItem3 from "../assets/slideshow_3.webp";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-const SliderPage = () => {
+const SliderComponent = () => {
   const [data, SetData] = useState([
     {
       src: srcItem1,
@@ -33,7 +34,9 @@ const SliderPage = () => {
       <div className="flex flex-col justify-center items-center mt-[10%] gap-6">
         <h2 className="text-3xl font-semibold">{item.subTitle}</h2>
         <h3 className="text-5xl font-bold">{item.title}</h3>
-        <button className="px-3 py-2 rounded-md bg-primary">Xem Ngay</button>
+        <Link to={"/products"}>
+          <span className="px-3 py-2 rounded-md bg-primary">Xem Ngay</span>
+        </Link>
       </div>
     </div>
   ));
@@ -51,4 +54,4 @@ const SliderPage = () => {
   );
 };
 
-export default SliderPage;
+export default SliderComponent;

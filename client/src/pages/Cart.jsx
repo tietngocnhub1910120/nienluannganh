@@ -4,11 +4,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 const Cart = () => {
   const [quantity, setQuantity] = useState(1);
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-  const handleReduced = () => {
-    setQuantity(quantity - 1);
+  const handleIncrement = (count) => {
+    if (quantity === 1 && count === -1) return;
+    setQuantity(quantity + count);
   };
   return (
     <section className="app__container">
@@ -24,7 +22,12 @@ const Cart = () => {
               <MdDelete className="block bg-gray-300 p-1 rounded-sm text-3xl cursor-pointer text-gray-900" />
             </div>
             <div>
-              <span className="text-lg cursor-pointer" onClick={handleReduced}>
+              <span
+                className="text-lg cursor-pointer"
+                onClick={() => {
+                  handleIncrement(-1);
+                }}
+              >
                 -
               </span>
               <input
@@ -36,7 +39,9 @@ const Cart = () => {
               />
               <span
                 className="text-lg cursor-pointer"
-                onClick={handleIncrement}
+                onClick={() => {
+                  handleIncrement(1);
+                }}
               >
                 +
               </span>
