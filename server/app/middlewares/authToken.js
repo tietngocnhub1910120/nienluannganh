@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
   const token = authToken && authToken.split(" ")[1];
 
   if (!token) {
-    const err = createError(401, "Ban can dang nhap");
+    const err = createError(401, "Người dùng chưa đăng nhập!");
     return next(err);
   }
 
@@ -21,6 +21,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
+    if (!req.user) return next(createError(402, "Người dùng chưa đăng nhập"));
     if (!req.user.isAdmin) {
       return next(createError(401, "Khong co quyen admin"));
     }

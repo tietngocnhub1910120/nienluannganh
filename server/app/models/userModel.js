@@ -13,6 +13,7 @@ const userSchema = new Schema(
         },
       },
     },
+    address: { type: String },
     password: { type: String, required: true, minlength: 6 },
     phone: {
       type: String,
@@ -24,7 +25,11 @@ const userSchema = new Schema(
       },
     },
     admin: { type: Boolean, default: false },
-    avatar: { type: String, default: "" },
+    avatar: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dv6mjv2ib/image/upload/v1676603950/t%E1%BA%A3i_xu%E1%BB%91ng_teirok.jpg",
+    },
   },
   {
     timestamps: true,

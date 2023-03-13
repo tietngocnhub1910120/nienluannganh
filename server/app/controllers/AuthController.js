@@ -11,7 +11,7 @@ class AuthController {
       return next(createError(401, "Trường email hoặc mật khẩu bị thiếu!"));
     }
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email }).select("-password");
       if (!user) {
         return next(createError(401, "Tài khoản người dùng không tồn tại!"));
       }
@@ -27,7 +27,8 @@ class AuthController {
       res.json({
         success: true,
         message: "Đăng nhập thành công!",
-        token,
+        user,
+        accessToken,
       });
     } catch (error) {
       next(error);
