@@ -1,7 +1,7 @@
 const FormCheckout = () => {
   return (
-    <form className="mt-10">
-      <h1 className="text-lg mb-4">Thông tin giao hàng</h1>
+    <form className="">
+      <h1 className="text-lg font-bold mb-4">Thông tin giao hàng</h1>
       <input
         type="text"
         name="fullName"

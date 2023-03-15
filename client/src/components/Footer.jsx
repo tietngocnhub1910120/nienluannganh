@@ -8,9 +8,9 @@ import {
 } from "react-icons/md";
 const Footer = () => {
   return (
-    <footer className="mt-11 bg-black">
-      <div className="app__container py-16">
-        <div className="grid grid-cols-4 gap-x-4">
+    <footer className="bg-black">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-4 gap-x-4 py-16">
           <div>
             <h5 className="font-bold text-white mb-4">GIỚI THIỆU</h5>
             <span className="text-sm text-gray-400">

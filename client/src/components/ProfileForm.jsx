@@ -38,13 +38,13 @@ const ProfileForm = () => {
         </div>
         <div className="mt-8 flex items-center gap-4 ">
           <label className="text-gray-500 w-1/6">Giới tính</label>
-          <div className="flex items-center w-1/6">
+          <div className="flex items-center gap-2 w-1/6">
             <input type="radio" name="gender" className="" /> <span>Nam</span>
           </div>
-          <div className="flex items-center w-1/6">
+          <div className="flex items-center gap-2 w-1/6">
             <input type="radio" name="gender" className="" /> <span>Nữ</span>
           </div>
-          <div className="flex items-center w-1/6">
+          <div className="flex items-center gap-2 w-1/6">
             <input type="radio" name="gender" className="" /> <span>Khác</span>
           </div>
         </div>

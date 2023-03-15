@@ -5,10 +5,13 @@ const ProfileSidebar = () => {
   return (
     <div className="col-span-1">
       <div className="flex gap-2">
-        <figure className="w-12 rounded-full overflow-hidden">
-          <img src={avatar} alt="" />
+        <figure>
+          <img src={avatar} alt="" className="w-12 rounded-full" />
         </figure>
-        <p className="text-base font-semibold">anhthuong2001</p>
+        <div>
+          <p className="text-lg font-semibold">anhthuong2001</p>
+          <span className="flex-sm text-gray-400">Email</span>
+        </div>
       </div>
       <ul className="mt-8">
         <li className="flex gap-2 items-center ">

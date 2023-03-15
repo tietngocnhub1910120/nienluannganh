@@ -18,9 +18,6 @@
   .border-primary {
     border-color: #b49149;
   }
-  .app__container {
-    @apply w-[1200px] container mx-auto;
-  }
   .slide-img.active {
     @apply border-primary;
   }
@@ -33,11 +30,5 @@
     border-right: 32px solid transparent;
     border-bottom: 32px solid transparent;
     border-left: 32px solid #b49149;
-  }
-
-  @media (max-width: 640px) {
-    .container {
-      max-width: 100%;
-    }
   }
 }
