@@ -5,13 +5,12 @@ const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 class AuthController {
   async login(req, res, next) {
-    const { email, password } = req.body;
-
+    let { email, password } = req.body;
     if (!email || !password) {
       return next(createError(401, "Trường email hoặc mật khẩu bị thiếu!"));
     }
     try {
-      const user = await User.findOne({ email }).select("-password");
+      const user = await User.findOne({ email });
       if (!user) {
         return next(createError(401, "Tài khoản người dùng không tồn tại!"));
       }
@@ -19,11 +18,11 @@ class AuthController {
         return next(createError(401, "Sai mật khẩu!"));
       }
 
-      const token = jwt.sign(
+      const accessToken = jwt.sign(
         { userId: user._id, isAdmin: user.admin },
         process.env.ACCESS_TOKEN_SECRET
       );
-
+      delete user.password;
       res.json({
         success: true,
         message: "Đăng nhập thành công!",
@@ -55,7 +54,7 @@ class AuthController {
       });
       await newUser.save();
 
-      const token = jwt.sign(
+      const accessToken = jwt.sign(
         { userId: newUser._id, isAdmin: newUser.admin },
         process.env.ACCESS_TOKEN_SECRET
       );
@@ -63,7 +62,7 @@ class AuthController {
       res.json({
         success: true,
         message: "Đăng ký tài khoản thành công!",
-        token,
+        accessToken,
       });
     } catch (error) {
       next(error);

@@ -1,16 +1,24 @@
-import avatar from "../assets/avatar.jpg";
 import { MdOutlinePersonOutline, MdOutlineEventNote } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const ProfileSidebar = () => {
+  const { profile } = useSelector((state) => state.profile);
   return (
     <div className="col-span-1">
       <div className="flex gap-2">
         <figure>
-          <img src={avatar} alt="" className="w-12 rounded-full" />
+          <img
+            src={profile.avatar}
+            alt=""
+            className="w-12 h-12 object-cover rounded-full"
+          />
         </figure>
         <div>
-          <p className="text-lg font-semibold">anhthuong2001</p>
-          <span className="flex-sm text-gray-400">Email</span>
+          <p className="text-lg font-semibold">
+            {profile.username || profile.email}
+          </p>
+          <span className="flex-sm text-gray-400">{profile.email}</span>
         </div>
       </div>
       <ul className="mt-8">

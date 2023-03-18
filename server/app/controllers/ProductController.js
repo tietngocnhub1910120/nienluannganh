@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { createError } = require("../utils/err");
 const Product = require("../models/productModel");
+const cloudinary = require("../utils/cloudinary");
 class ProductController {
   async getProduct(req, res, next) {
     const { id } = req.params;
@@ -49,20 +50,26 @@ class ProductController {
   }
   async createProduct(req, res, next) {
     const skuRandom = "FN" + Math.floor(Math.random() * 1000000);
-    const { title, description, price, type, colors } = req.body;
+    let { title, description, price, type, colors } = req.body;
+    colors = String(colors).split(",");
+    const files = req.files;
     const urlImages = [];
-    if (req.files) {
-      req.files.forEach((file) => {
-        urlImages.push(file.path);
-      });
-    }
     if (!title) {
       return next(createError(401, "Thiếu dữ liệu trường tiêu đề sản phẩm!"));
     }
     if (!price) {
       return next(createError(401, "Thiếu dữ liệu trường giá sản phẩm!"));
     }
+
     try {
+      if (files) {
+        for (const file of files) {
+          const { secure_url } = await cloudinary.uploader.upload(file.path);
+          console.log(secure_url);
+          urlImages.push(secure_url);
+        }
+      }
+
       const newProduct = new Product({
         sku: skuRandom,
         title,

@@ -21,9 +21,8 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (!req.user) return next(createError(402, "Người dùng chưa đăng nhập"));
     if (!req.user.isAdmin) {
-      return next(createError(401, "Khong co quyen admin"));
+      return next(createError(401, "Không có quyền quản trị"));
     }
     next();
   });

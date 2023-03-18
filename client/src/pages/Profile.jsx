@@ -1,7 +1,21 @@
+import { useEffect } from "react";
+
 import Header from "../components/Header";
 import ProfileForm from "../components/ProfileForm";
 import ProfileSidebar from "../components/ProfileSidebar";
+import { useDispatch } from "react-redux";
+
+import { getProfile } from "../Api/profileAPI";
+
 const Profile = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await getProfile(dispatch);
+    };
+    fetchProfile();
+  }, []);
   return (
     <div className="w-[80%] mx-auto">
       <main className="container mx-auto">

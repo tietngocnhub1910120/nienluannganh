@@ -1,69 +1,169 @@
-import avatar from "../assets/avatar.jpg";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { updateProfile } from "../Api/profileAPI";
 const ProfileForm = () => {
+  const { profile } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+  const [previewAvatar, setPreviewAvatar] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setValues,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      username: "",
+      phone: "",
+      address: "",
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().email("email không hợp lệ"),
+      username: Yup.string(),
+      phone: Yup.string().matches(
+        /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+        "số điện thoại không hợp lệ"
+      ),
+      address: Yup.string(),
+    }),
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("username", values.username);
+      formData.append("phone", values.phone);
+      formData.append("address", values.address);
+      formData.append("avatar", avatar);
+      handleUpdateProfile(formData);
+    },
+  });
+
+  const handleUpdateProfile = async (values) => {
+    await updateProfile(values, dispatch);
+  };
+  const handleAvatar = (e) => {
+    if (e.target.files) {
+      setAvatar(e.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (profile) {
+      setValues({
+        email: profile.email,
+        address: profile.address,
+        phone: profile.phone,
+        username: profile.username,
+      });
+      setPreviewAvatar(profile.avatar);
+    }
+  }, [profile]);
+  useEffect(() => {
+    if (!avatar) {
+      return;
+    }
+    const url = URL.createObjectURL(avatar);
+    setPreviewAvatar(url);
+    return () => URL.revokeObjectURL(url);
+  }, [avatar]);
   return (
     <div className="grid grid-cols-4">
-      <div className="col-span-3 mx-6">
-        <div className="mt-8 ">
-          <label className="text-gray-500">Tên đăng nhập</label>
-          <input
-            type="text"
-            className="ml-6 font-medium"
-            name="username"
-            value={"anhthuong1"}
-            disabled
-          />
-        </div>
-        <div className="mt-8 flex items-center">
-          <label className="text-gray-500 w-1/6">Tên</label>
-          <input
-            type="text"
-            name="fullName"
-            className="w-5/6 px-1 py-2 outline-none border-2 ml-6 font-medium rounded"
-          />
-        </div>
-        <div className="mt-8 flex items-center">
-          <label className="text-gray-500 w-1/6">Email</label>
-          <input
-            type="email"
-            className="w-5/6 px-1 py-2 outline-none border-2 ml-6 font-medium rounded"
-          />
-        </div>
-        <div className="mt-8 flex items-center">
-          <label className="text-gray-500 w-1/5">Số điện thoại</label>
-          <input
-            type="tel"
-            className="w-4/5 px-1 py-2 outline-none border-2 ml-6 font-medium rounded"
-          />
-        </div>
-        <div className="mt-8 flex items-center gap-4 ">
-          <label className="text-gray-500 w-1/6">Giới tính</label>
-          <div className="flex items-center gap-2 w-1/6">
-            <input type="radio" name="gender" className="" /> <span>Nam</span>
+      <form className="col-span-3 mx-6" onSubmit={handleSubmit}>
+        <FormControl className="mt-8" isInvalid={errors.email && touched.email}>
+          <div className="flex items-center">
+            <FormLabel className="w-1/6">Email</FormLabel>
+            <Input
+              className="w-5/6"
+              placeholder="nhập email"
+              name="email"
+              value={values.email || ""}
+              disabled
+            />
           </div>
-          <div className="flex items-center gap-2 w-1/6">
-            <input type="radio" name="gender" className="" /> <span>Nữ</span>
+          {errors.email && touched.email && (
+            <FormErrorMessage>{errors.email}</FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl
+          className="mt-8"
+          isInvalid={errors.username && touched.username}
+        >
+          <div className="flex items-center">
+            <FormLabel className="w-1/6">Tên:</FormLabel>
+            <Input
+              className="w-5/6"
+              placeholder="nhập tên của bạn"
+              name="username"
+              value={values.username || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
           </div>
-          <div className="flex items-center gap-2 w-1/6">
-            <input type="radio" name="gender" className="" /> <span>Khác</span>
+          {errors.username && touched.username && (
+            <FormErrorMessage>{errors.username}</FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl className="mt-8" isInvalid={errors.phone && touched.phone}>
+          <div className="flex items-center">
+            <FormLabel className="w-1/6">số điện thoại</FormLabel>
+            <Input
+              className="w-5/6"
+              placeholder="nhập số điện thoại"
+              name="phone"
+              value={values.phone || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
           </div>
-        </div>
-        <div className="mt-8 flex items-center">
-          <label className="text-gray-500 w-1/6">Ngày sinh</label>
-          <input
-            type="date"
-            name="birthday"
-            className="w-5/6 px-1 py-2 outline-none border-2 ml-6 font-medium rounded"
-          />
-        </div>
-        <button className="mt-8 px-4 py-3 bg-primary rounded text-white font-semibold hover:bg-hover">
+          {errors.phone && touched.phone && (
+            <FormErrorMessage>{errors.phone}</FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl
+          className="mt-8"
+          isInvalid={errors.address && touched.address}
+        >
+          <div className="flex items-center">
+            <FormLabel className="w-1/6">Địa chỉ:</FormLabel>
+            <Input
+              className="w-5/6"
+              placeholder="nhập địa chỉ"
+              name="address"
+              value={values.address || ""}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+          {errors.address && touched.address && (
+            <FormErrorMessage>{errors.address}</FormErrorMessage>
+          )}
+        </FormControl>
+        <button
+          type="submit"
+          className="mt-8 px-4 py-3 bg-primary rounded text-white font-semibold hover:bg-hover"
+        >
           Lưu
         </button>
-      </div>
+      </form>
       <div className="col-span-1">
         <div className="flex flex-col items-center">
-          <figure className="w-28 rounded-full overflow-hidden">
-            <img src={avatar} alt="" />
+          <figure>
+            <img
+              src={previewAvatar}
+              alt=""
+              className="w-28 h-28 object-cover rounded-full"
+            />
           </figure>
           <div className="mt-4 text-center">
             <label
@@ -72,7 +172,13 @@ const ProfileForm = () => {
             >
               Chọn Ảnh
             </label>
-            <input type="file" name="avatar" id="avatar" className="hidden" />
+            <input
+              type="file"
+              name="avatar"
+              id="avatar"
+              className="hidden"
+              onChange={handleAvatar}
+            />
             <p className="mt-4 text-gray-500">
               Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG
             </p>

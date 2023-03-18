@@ -1,6 +1,8 @@
 require("dotenv").config();
 const { createError } = require("../utils/err");
 const User = require("../models/userModel");
+const cloudinary = require("../utils/cloudinary");
+
 class UserController {
   async getUser(req, res, next) {
     const { userId } = req.user;
@@ -18,22 +20,29 @@ class UserController {
   }
   async editProfile(req, res, next) {
     const { userId } = req.user;
-    const { phone, address } = req.body;
+    const { phone, address, username } = req.body;
     const file = req.file;
 
     try {
-      let userUpdated = {
+      let avatar;
+      if (file) {
+        avatar = await cloudinary.uploader.upload(file.path);
+      }
+
+      let user = {
+        username,
         phone,
         address,
-        avatar: file.path,
+        avatar: avatar?.secure_url,
       };
-      userUpdated = await User.findByIdAndUpdate(userId, userUpdated, {
+      user = await User.findByIdAndUpdate(userId, user, {
         new: true,
       });
 
       res.json({
         success: true,
         message: "Cập nhật thông tin thành công!",
+        user,
       });
     } catch (error) {
       next(error);

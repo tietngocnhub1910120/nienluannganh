@@ -1,16 +1,43 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+} from "@chakra-ui/react";
 import { login } from "../Api/authAPI";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSumbit = async () => {
-    await login({ email, password }, dispatch, navigate);
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      validationSchema: Yup.object().shape({
+        email: Yup.string()
+          .required("Vui lòng nhập email")
+          .email("email không hợp lệ"),
+        password: Yup.string().required("Vui lòng nhập password"),
+      }),
+      onSubmit: async (values) => {
+        console.log(values);
+        handleSignIn(values);
+      },
+    });
+
+  const handleSignIn = async (values) => {
+    const { success } = await login(values, dispatch);
+    if (success) {
+      navigate("/");
+    }
   };
   return (
     <>
@@ -21,32 +48,48 @@ const SignIn = () => {
             <h1 className="text-center text-xl font-bold text-black">
               ĐĂNG NHẬP
             </h1>
-            <div className="w-full mt-8 px-4 py-3 md:w-1/2 mx-auto bg-gray-100 flex flex-col justify-center">
-              <input
-                className="mt-4 w-full border-b mx-auto py-1 px-1 outline-[#d9bb36]"
-                type="email"
-                name="email"
-                placeholder="Nhập email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <input
-                className="mt-4 w-full border-b mx-auto py-1 px-1 outline-[#d9bb36]"
-                type="password"
-                name="password"
-                placeholder="Nhập mật khẩu"
-                onChange={(e) => {
-                  setPass(e.target.value);
-                }}
-              />
-              <button
-                onClick={handleSumbit}
-                className="mt-4 px-8 py-3 bg-primary rounded-sm hover:bg-hover cursor-pointer text-white font-bold "
+            <form
+              onSubmit={handleSubmit}
+              className="w-full mt-8 px-4 py-3 md:w-1/2 mx-auto bg-gray-100 flex flex-col justify-center"
+            >
+              <FormControl
+                className="mt-2"
+                isInvalid={errors.email && touched.email}
               >
+                <FormLabel>Email</FormLabel>
+                <Input
+                  placeholder="Email"
+                  name="email"
+                  value={values.email || ""}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.email && touched.email && (
+                  <FormErrorMessage>{errors.email}</FormErrorMessage>
+                )}
+              </FormControl>
+              <FormControl
+                className="mt-2"
+                isInvalid={errors.password && touched.password}
+              >
+                <FormLabel>Mật khẩu</FormLabel>
+                <Input
+                  placeholder="Mật khẩu"
+                  type="password"
+                  name="password"
+                  value={values.password || ""}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.password && touched.password && (
+                  <FormErrorMessage>{errors.password}</FormErrorMessage>
+                )}
+              </FormControl>
+
+              <button className="mt-4 px-8 py-3 bg-primary rounded-sm hover:bg-hover cursor-pointer text-white font-bold ">
                 ĐĂNG NHẬP
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

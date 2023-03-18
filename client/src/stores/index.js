@@ -5,6 +5,7 @@ import thunk from "redux-thunk";
 
 import authSlice from "./authSlice";
 import productSlice from "./productSlice";
+import profileSlice from "./profileSlice";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authSlice,
   product: productSlice,
+  profile: profileSlice,
   //
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);

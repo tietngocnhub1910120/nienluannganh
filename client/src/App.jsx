@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import UnAuthorized from "./pages/UnAuthorized";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -26,18 +27,19 @@ const App = () => {
         <Route path="/signin" element={<SignIn />}></Route>
 
         <Route path="/" element={<Home />}></Route>
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/cart/checkout" element={<Checkout />}></Route>
-        <Route path="/user/profile" element={<Profile />}></Route>
-        <Route path="/user/purchase" element={<Purchase />}></Route>
-        <Route path="/tracking-order" element={<TrackingOrder />}></Route>
-        {/* <Route element={<AdminRoutes />}> */}
-        <Route path="/manage/order" element={<ManageOrder />}></Route>
-        <Route path="/manage/product" element={<ManageProduct />}></Route>
-        <Route path="/manage/product/add" element={<AddProduct />}></Route>
-        {/* </Route> */}
-        {/* </Route> */}
+        <Route element={<RequireAuth />}>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/cart/checkout" element={<Checkout />}></Route>
+          <Route path="/user/profile" element={<Profile />}></Route>
+          <Route path="/user/purchase" element={<Purchase />}></Route>
+          <Route path="/tracking-order" element={<TrackingOrder />}></Route>
+          <Route element={<AdminRoutes />}>
+            <Route path="/manage/order" element={<ManageOrder />}></Route>
+            <Route path="/manage/product" element={<ManageProduct />}></Route>
+            <Route path="/manage/product/add" element={<AddProduct />}></Route>
+            <Route path="/unauthorized" element={<UnAuthorized />}></Route>
+          </Route>
+        </Route>
 
         <Route path="*" element={<NotFound />}></Route>
       </Routes>

@@ -9,7 +9,14 @@ import {
   MdSearch,
   MdChevronRight,
 } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../Api/authAPI";
 const Header = () => {
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    await logout(dispatch);
+  };
   return (
     <header className="w-full">
       <div className=" flex justify-between items-center h-28">
@@ -27,39 +34,53 @@ const Header = () => {
               <li className=" flex items-center cursor-pointer">
                 <MdPhone /> 0794290085
               </li>
-              <li className="relative flex items-center gap-1 rounded p-1 group">
-                <figure className="w-6 h-6 rounded-full overflow-hidden">
-                  <img src={srcItem} alt="" />
-                </figure>
-                <span className="text-sm cursor-pointer font-light hover:text-black/70">
-                  Duong Thuong
-                </span>
-                <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
-                  <li className="mt-3 ml-3 hover:text-white/70">
-                    <Link to={"/user/profile"}>
-                      <span>Tài khoản của tôi</span>
+              {user ? (
+                <>
+                  <li className="relative flex items-center gap-1 rounded p-1 group">
+                    <figure>
+                      <img
+                        src={user.avatar}
+                        alt=""
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    </figure>
+                    <span className="text-sm cursor-pointer font-light hover:text-black/70">
+                      {user.email}
+                    </span>
+                    <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
+                      <li className="mt-3 ml-3 hover:text-white/70">
+                        <Link to={"/user/profile"}>
+                          <span>Tài khoản của tôi</span>
+                        </Link>
+                      </li>
+                      <li className="mt-3 ml-3 hover:text-white/70">
+                        <Link to={"/user/purchase"}>
+                          <span>Đơn mua</span>
+                        </Link>
+                      </li>
+                      <li
+                        onClick={handleLogout}
+                        className="mt-3 ml-3 hover:text-white/70"
+                      >
+                        <span>Đăng xuất</span>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className=" cursor-pointer">
+                    <Link to={"/signup"}>
+                      <span>ĐĂNG KÝ</span>
                     </Link>
                   </li>
-                  <li className="mt-3 ml-3 hover:text-white/70">
-                    <Link to={"/user/purchase"}>
-                      <span>Đơn mua</span>
+                  <li className=" cursor-pointer">
+                    <Link to={"/signin"}>
+                      <span>ĐĂNG NHẬP</span>
                     </Link>
                   </li>
-                  <li className="mt-3 ml-3 hover:text-white/70">
-                    <span>Đăng xuất</span>
-                  </li>
-                </ul>
-              </li>
-              <li className=" cursor-pointer">
-                <Link to={"/signup"}>
-                  <span>ĐĂNG KÝ</span>
-                </Link>
-              </li>
-              <li className=" cursor-pointer">
-                <Link to={"/signin"}>
-                  <span>ĐĂNG NHẬP</span>
-                </Link>
-              </li>
+                </>
+              )}
             </ul>
             <p className="text-sm">
               Miễn phí vận chuyển
