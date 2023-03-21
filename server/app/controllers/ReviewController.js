@@ -20,7 +20,7 @@ class ReviewController {
 
       res.status(200).json({
         success: true,
-        message: "Đã xóa đánh giá thành công!",
+        message: "Đã chỉnh sửa đánh giá thành công!",
         updatedReview,
       });
     } catch (error) {
@@ -73,7 +73,10 @@ class ReviewController {
   async getReviews(req, res, next) {
     const productId = req.params.productId;
     try {
-      const reviews = await Review.find({ productId });
+      const reviews = await Review.find({ productId }).populate(
+        "userId",
+        "-password"
+      );
 
       res.status(200).json({
         success: true,
