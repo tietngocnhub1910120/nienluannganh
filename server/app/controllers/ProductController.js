@@ -65,7 +65,6 @@ class ProductController {
       if (files) {
         for (const file of files) {
           const { secure_url } = await cloudinary.uploader.upload(file.path);
-          console.log(secure_url);
           urlImages.push(secure_url);
         }
       }
@@ -94,9 +93,10 @@ class ProductController {
     const { title, description, price, colors, type } = req.body;
     const urlImages = [];
     if (req.files) {
-      req.files.forEach((file) => {
-        urlImages.push(file.path);
-      });
+      for (const file of req.files) {
+        const { secure_url } = await cloudinary.uploader.upload(file.path);
+        urlImages.push(secure_url);
+      }
     }
     let productUpdate = {
       title,
