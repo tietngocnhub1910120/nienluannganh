@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   useDisclosure,
@@ -11,7 +11,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct, getAllProduct, deleteProduct } from "../Api/productAPI";
+import { getProduct, deleteProduct } from "../Api/productAPI";
 import InstanceModal from "./modal/InstanceModal";
 import FormProduct from "./FormProduct";
 import VerifyModal from "./modal/VerifyModal";
@@ -19,13 +19,6 @@ const ProductTable = () => {
   const { products } = useSelector((state) => state.product);
   const [productId, setProductId] = useState(null);
   const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchProductList = async () => {
-      await getAllProduct(null, dispatch);
-    };
-    fetchProductList();
-  }, []);
-
   const {
     isOpen: isOpenEditProduct,
     onOpen: onOpenEditProduct,
@@ -57,6 +50,9 @@ const ProductTable = () => {
                 Đơn giá
               </Th>
               <Th scope="col" className="px-6 py-4 font-medium text-gray-900">
+                Hình ảnh
+              </Th>
+              <Th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 Loại sản phẩm
               </Th>
               <Th scope="col" className="px-6 py-4 font-medium text-gray-900">
@@ -79,6 +75,15 @@ const ProductTable = () => {
                     </Td>
                     <Td>
                       <p>{product.price}</p>
+                    </Td>
+                    <Td>
+                      <div className="flex gap-1">
+                        {product.urlImages.map((url, index) => {
+                          return (
+                            <img key={index} className="w-10 h-10" src={url} />
+                          );
+                        })}
+                      </div>
                     </Td>
                     <Td>{product.type}</Td>
                     <Td>

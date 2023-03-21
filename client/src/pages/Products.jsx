@@ -1,14 +1,28 @@
 import ProductItem from "../components/ProductItem";
 import Category from "../components/Category";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAllProduct } from "../Api/productAPI";
+import { useDispatch, useSelector } from "react-redux";
 
 const Products = () => {
   const [dataSort, setDataSort] = useState("mới");
-
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);
   const handleSortting = (event) => {
     setDataSort(event.target.value);
   };
+  const [filters, setFilters] = useState({
+    page: 1,
+    limit: 8,
+    time: null,
+  });
+  useEffect(() => {
+    const fetchProducts = async (params) => {
+      await getAllProduct(dispatch, params);
+    };
+    fetchProducts(filters);
+  }, []);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
@@ -36,8 +50,14 @@ const Products = () => {
                 </select>
               </div>
             </div>
-            <div className="mt-7 grid grid-cols-3">
-              <ProductItem />
+            <div className="mt-7 grid grid-cols-3 gap-8">
+              {products && products.length > 0 ? (
+                products.map((product) => {
+                  return <ProductItem key={product._id} data={product} />;
+                })
+              ) : (
+                <p>Không có sản phẩm</p>
+              )}
             </div>
             <div className="mt-7 flex justify-center">
               <nav aria-label="Page navigation example">

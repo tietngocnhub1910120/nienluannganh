@@ -48,16 +48,23 @@ const Header = () => {
                       {user.email}
                     </span>
                     <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
-                      <li className="mt-3 ml-3 hover:text-white/70">
-                        <Link to={"/user/profile"}>
+                      <Link to={"/user/profile"}>
+                        <li className="mt-3 ml-3 hover:text-white/70">
                           <span>Tài khoản của tôi</span>
-                        </Link>
-                      </li>
-                      <li className="mt-3 ml-3 hover:text-white/70">
-                        <Link to={"/user/purchase"}>
+                        </li>
+                      </Link>
+                      <Link to={"/user/purchase"}>
+                        <li className="mt-3 ml-3 hover:text-white/70">
                           <span>Đơn mua</span>
+                        </li>
+                      </Link>
+                      {user.admin ? (
+                        <Link to={"/manage/product"}>
+                          <li className="mt-3 ml-3 hover:text-white/70">
+                            <span>Quản lý sản phẩm</span>
+                          </li>
                         </Link>
-                      </li>
+                      ) : null}
                       <li
                         onClick={handleLogout}
                         className="mt-3 ml-3 hover:text-white/70"

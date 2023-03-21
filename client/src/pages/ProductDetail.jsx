@@ -8,9 +8,14 @@ import { MdShoppingCart, MdDone, MdMoreHoriz } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
+import { getProduct } from "../Api/productAPI";
+import { useDispatch, useSelector } from "react-redux";
 const ProductDetail = () => {
   let { productId } = useParams();
+  const { product } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
   const [option, setOption] = useState(false);
+  const [imageActive, setImageActive] = useState(null);
   const [size, setSize] = useState("s");
   const [index, setIndex] = useState(0);
   const [color, setColor] = useState("red");
@@ -25,10 +30,20 @@ const ProductDetail = () => {
     setIndex(event.target.dataset.index);
   };
   useEffect(() => {
-    const slides = document.querySelectorAll(".slide-img");
-    slides.forEach((slide) => slide.classList.remove("active"));
-    slides[index].classList.add("active");
-  }, [index]);
+    const fetchProduct = async (id) => {
+      await getProduct(id, dispatch);
+    };
+    fetchProduct(productId);
+  }, [productId]);
+  useEffect(() => {
+    setImageActive(() => {
+      if (product.urlImages && product.urlImages.length > 0) {
+        return product.urlImages[0];
+      } else {
+        return " ";
+      }
+    });
+  }, [product]);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
@@ -39,34 +54,38 @@ const ProductDetail = () => {
             <div className="grid grid-cols-2 ">
               <div>
                 <figure>
-                  <img src={data[index]} alt="" className="scale-90" />
+                  <img src={imageActive} alt="" className="scale-90" />
                 </figure>
                 <div className="flex gap-4">
-                  <div
-                    className="w-14 slide-img border hover:border-primary"
-                    onClick={handleChooseImgae}
-                  >
-                    <figure>
-                      <img src={srcProduct1} alt="" data-index={0} />
-                    </figure>
-                  </div>
-                  <div
-                    className="w-14 slide-img border hover:border-primary"
-                    onClick={handleChooseImgae}
-                  >
-                    <figure>
-                      <img src={srcProduct2} alt="" data-index={1} />
-                    </figure>
-                  </div>
+                  {product.urlImages && product.urlImages.length > 0
+                    ? product.urlImages.map((imageSrc, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className={`w-14 slide-img border hover:border-primary ${
+                              imageActive === imageSrc ? "active" : ""
+                            }`}
+                            onClick={() => {
+                              setImageActive(imageSrc);
+                            }}
+                          >
+                            <figure>
+                              <img src={imageSrc} alt="" />
+                            </figure>
+                          </div>
+                        );
+                      })
+                    : null}
                 </div>
               </div>
               <div>
-                <h1 className="font-semibold text-xl">
-                  Bàn Sofa Thời Trang Noguchi Home'furni
-                </h1>
-                <p className="text-base">SKU: SF022-1</p>
+                <h1 className="font-semibold text-xl">{product.title}</h1>
+                <p className="text-base">SKU : {product.sku}</p>
                 <h5 className="text-red-400 text-2xl font-medium mt-2">
-                  1,200,000₫
+                  {product.price.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                 </h5>
                 <div className="h-[1px] w-full bg-gray-300 my-2"></div>
                 <div>
@@ -139,82 +158,7 @@ const ProductDetail = () => {
             <section className="mt-20">
               <h2 className="font-medium">MÔ TẢ SẢN PHẨM</h2>
               <div className="h-[1px] w-full bg-black my-2"></div>
-              <p>
-                Mặt bàn được làm bằng kính bền đẹp. Chân bàn chắc chắn, chống
-                trượt. Thích hợp sử dụng trong gia đình, các nhà hàng, khách
-                sạn...
-              </p>
-              <div>
-                <p className="mt-6">Thông số kỹ thuật:</p>
-
-                <table className="my-6">
-                  <tbody>
-                    <tr>
-                      <td className="border px-2 py-2 font-medium border-slate-300">
-                        Xuất xứ
-                      </td>
-                      <td className="border px-2 py-2 border-slate-300">
-                        Malaysia
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-2 border-slate-300 font-medium">
-                        Chất liệu
-                      </td>
-                      <td className="border px-2 py-2 border-slate-300">
-                        Kính, chân gỗ beech (gỗ dẻ gai)
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-2 border-slate-300 font-medium">
-                        Kích thước
-                      </td>
-                      <td className="border px-2 py-2 border-slate-300 ">
-                        125 x 89 x 40 (cm)
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-2 border-slate-300 font-medium">
-                        12 tháng
-                      </td>
-                      <td className="border px-2 py-2 border-slate-300">
-                        Trong suốt
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="border px-2 py-2 border-slate-300 font-medium">
-                        Bảo hành
-                      </td>
-                      <td className="border px-2 py-2 border-slate-300">
-                        12 tháng
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div>
-                <p className="mb-6">Thông tin sản phẩm:</p>
-                <span>
-                  Chất liệu bền bỉ, chịu va đập Bàn sofa thời trang Noguchi
-                  Home'furni 125 x 89 x 40 cm (Trong suốt) có mặt bàn được làm
-                  bằng kính bền đẹp, chịu lực tốt. Chất liệu kính chống trầy
-                  xước, chống bám bẩn nên dễ dàng vệ sinh, lau chùi. Mặt bàn có
-                  kiểu dáng hình tam giác với các góc bo tròn đẹp mắt, làm tăng
-                  thêm vẻ mềm mại và tính thẩm mỹ cho sản phẩm. Chân bàn có độ
-                  ổn định cao Chân bàn được làm từ gỗ beech (gỗ dẻ gai) cứng
-                  chắc. Chất liệu gỗ đã được xử lý chống mối mọt, chống ẩm mốc
-                  và không có mùi khó chịu. Khả năng chịu lực cao, chịu được các
-                  va đập nên không bị biến dạng, cong vênh trong quá trình sử
-                  dụng. Chân bàn được thiết kế độc đáo với độ cân bằng cao,
-                  chống trượt, giúp bàn không bị chông chênh, rung lắc khi ngồi.
-                  Phù hợp với nhiều phong cách nội thất Bàn sofa thời trang
-                  Noguchi Home'furni sở hữu thiết kế độc đáo và tinh tế, phù hợp
-                  với nhiều phong cách nội thất khác nhau, từ đơn giản đến sang
-                  trọng, cổ điển đến hiện đại. Sản phẩm thích hợp sử dụng trong
-                  gia đình, các nhà hàng, quán cà phê, khách sạn... góp phần tô
-                  điểm cho không gian sống thêm trang nhã.
-                </span>
-              </div>
+              <p dangerouslySetInnerHTML={{ __html: product.description }}></p>
             </section>
             <section className="mt-11">
               <h2 className="font-semibold">BÌNH LUẬN</h2>
