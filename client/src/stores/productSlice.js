@@ -5,21 +5,23 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     product: {},
+    totalProduct: null,
   },
   reducers: {
     getProductsAction: (state, actions) => {
       state.products = actions.payload.products;
+      state.totalProduct = actions.payload.countProducts;
     },
     getProductAction: (state, actions) => {
       state.product = actions.payload.product;
     },
     removeProductAction: (state, actions) => {
       state.products = state.products.filter(
-        (product) => product._id !== actions.payload.id
+        (product) => product._id !== actions.payload
       );
     },
     addProductAction: (state, actions) => {
-      state.products = state.products.push(actions.payload.newProduct);
+      state.products = [...state.products, actions.payload.newProduct];
     },
   },
 });

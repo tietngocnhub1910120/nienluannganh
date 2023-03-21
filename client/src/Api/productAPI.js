@@ -7,10 +7,10 @@ import {
   addProductAction,
 } from "../stores/productSlice";
 
-export const getAllProduct = async (filter = {}, dispatch) => {
+export const getAllProduct = async (dispatch, params) => {
   try {
     const data = await axiosClient.get("/api/product", {
-      filter,
+      params,
     });
     dispatch(getProductsAction(data));
   } catch (error) {
