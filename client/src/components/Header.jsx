@@ -9,11 +9,18 @@ import {
   MdSearch,
   MdChevronRight,
 } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../Api/authAPI";
 const Header = () => {
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    await logout(dispatch);
+  };
   return (
-    <section className="header">
-      <div className="header__top flex justify-between items-center h-28">
-        <div className="header__logo">
+    <header className="w-full">
+      <div className=" flex justify-between items-center h-28">
+        <div className="">
           <Link to="/">
             <figure>
               <img src={logo} alt="logo" />
@@ -21,106 +28,113 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="header__auth flex items-center gap-2 ">
-          <div className="header__auth text-right divide-y-[1px] divide-black">
-            <ul className="header__controls flex gap-5 ">
-              <li className="header__control flex items-center cursor-pointer">
+        <div className=" flex items-center gap-2 ">
+          <div className=" text-right divide-y-[1px] divide-black">
+            <ul className=" flex gap-5 ">
+              <li className=" flex items-center cursor-pointer">
                 <MdPhone /> 0794290085
               </li>
-              <li className="relative flex items-center gap-1 rounded p-1 group">
-                <figure className="w-6 h-6 rounded-full overflow-hidden">
-                  <img src={srcItem} alt="" />
-                </figure>
-                <span className="text-sm cursor-pointer font-light hover:text-black/70">
-                  Duong Thuong
-                </span>
-                <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
-                  <li className="mt-3 ml-3 hover:text-white/70">
-                    <Link to={"/user/profile"}>
-                      <span>Tài khoản của tôi</span>
+              {user ? (
+                <>
+                  <li className="relative flex items-center gap-1 rounded p-1 group">
+                    <figure>
+                      <img
+                        src={user.avatar}
+                        alt=""
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    </figure>
+                    <span className="text-sm cursor-pointer font-light hover:text-black/70">
+                      {user.email}
+                    </span>
+                    <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
+                      <li className="mt-3 ml-3 hover:text-white/70">
+                        <Link to={"/user/profile"}>
+                          <span>Tài khoản của tôi</span>
+                        </Link>
+                      </li>
+                      <li className="mt-3 ml-3 hover:text-white/70">
+                        <Link to={"/user/purchase"}>
+                          <span>Đơn mua</span>
+                        </Link>
+                      </li>
+                      <li
+                        onClick={handleLogout}
+                        className="mt-3 ml-3 hover:text-white/70"
+                      >
+                        <span>Đăng xuất</span>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className=" cursor-pointer">
+                    <Link to={"/signup"}>
+                      <span>ĐĂNG KÝ</span>
                     </Link>
                   </li>
-                  <li className="mt-3 ml-3 hover:text-white/70">
-                    <Link to={"/user/purchase"}>
-                      <span>Đơn mua</span>
+                  <li className=" cursor-pointer">
+                    <Link to={"/signin"}>
+                      <span>ĐĂNG NHẬP</span>
                     </Link>
                   </li>
-                  <li className="mt-3 ml-3 hover:text-white/70">
-                    <span>Đăng xuất</span>
-                  </li>
-                </ul>
-              </li>
-              <li className="header__control cursor-pointer">
-                <Link to={"/signup"}>
-                  <span>ĐĂNG KÝ</span>
-                </Link>
-              </li>
-              <li className="header__control cursor-pointer">
-                <Link to={"/signin"}>
-                  <span>ĐĂNG NHẬP</span>
-                </Link>
-              </li>
+                </>
+              )}
             </ul>
-            <p className="header__sub text-sm">
+            <p className="text-sm">
               Miễn phí vận chuyển
-              <span className="header__sub-hl text-[#B49149]">
-                {" "}
-                ĐƠN HÀNG TRÊN 500K
-              </span>
+              <span className=" text-[#B49149]"> ĐƠN HÀNG TRÊN 500K</span>
             </p>
           </div>
-          <div className="cart relative">
-            <div className="cart__icon p-3 border-2 cursor-pointer relative peer  hover:border-[#B49149] duration-200 ease-linear">
+          <div className=" relative">
+            <div className=" p-3 border-2 cursor-pointer relative peer  hover:border-[#B49149] duration-200 ease-linear">
               <MdOutlineShoppingBag className="text-4xl" />
-              <span className="cart__count text-center text-white w-6 rounded-full bg-[#B49149] absolute top-0 right-0 ">
+              <span className=" text-center text-white w-6 rounded-full bg-[#B49149] absolute top-0 right-0 ">
                 2
               </span>
             </div>
-            <div className="cart__sub z-10 absolute -left-[288px] -translate-y-6 invisible opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">
-              <h3 className="cart__title font-bold py-2 border-b-2 pl-3">
+            <div className=" z-10 absolute -left-[288px] -translate-y-6 invisible opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">
+              <h3 className=" font-bold py-2 border-b-2 pl-3">
                 Giỏ hàng của bạn
               </h3>
-              <ul className="cart__list pt-3">
-                <li className="cart__item flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
-                  <div className="cart__item-info flex tems-center gap-2 w-4/5">
-                    <figure className="cart__item-img w-11">
+              <ul className=" pt-3">
+                <li className=" flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
+                  <div className="-info flex tems-center gap-2 w-4/5">
+                    <figure className="-img w-11">
                       <img src={srcItem} alt="" />
                     </figure>
-                    <span className="cart__item-name truncate">
+                    <span className="-name truncate">
                       Ghế đẩu sang trọng bật nhất việt nam
                     </span>
                   </div>
-                  <span className="cart__item-price text-[#B49149]">
-                    $300000
-                  </span>
+                  <span className="-price text-[#B49149]">$300000</span>
                 </li>
-                <li className="cart__item flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
-                  <div className="cart__item-info flex tems-center gap-2 w-4/5">
-                    <figure className="cart__item-img w-11">
+                <li className=" flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
+                  <div className=" flex tems-center gap-2 w-4/5">
+                    <figure className=" w-11">
                       <img src={srcItem} alt="" />
                     </figure>
-                    <span className="cart__item-name truncate">
+                    <span className=" truncate">
                       Ghế đẩu sang trọng bật nhất việt nam
                     </span>
                   </div>
-                  <span className="cart__item-price text-[#B49149]">
-                    $300000
-                  </span>
+                  <span className=" text-[#B49149]">$300000</span>
                 </li>
               </ul>
               <div className="w-100 h-0.5 bg-black my-4"></div>
-              <div className="cart__total flex justify-between mb-4 mx-3">
+              <div className=" flex justify-between mb-4 mx-3">
                 <span className="font-bold">TỔNG TIỀN:</span>
-                <span className="cart__price">$300000</span>
+                <span className="">$300000</span>
               </div>
-              <div className="cart__controls flex justify-between mb-4 mx-3">
+              <div className=" flex justify-between mb-4 mx-3">
                 <Link to={"/cart"}>
-                  <span className="cart__view py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black  duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
+                  <span className=" py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black  duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
                     XEM GIỎ HÀNG
                   </span>
                 </Link>
                 <Link to={"/cart/checkout"}>
-                  <span className="cart__payment py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
+                  <span className=" py-1 text-sm cursor-pointer bg-white drop-shadow-[4px_4px_rgba(0,0,0,0.50)] px-4 border-2 border-black duration-200 ease-linear hover:bg-[#B49149] hover:text-white hover:drop-shadow-[3px_3px_rgba(0,0,0,0.50)]">
                     THANH TOÁN
                   </span>
                 </Link>
@@ -223,7 +237,7 @@ const Header = () => {
           <MdSearch className="text-xl text-gray-500 mr-3" />
         </div>
       </div>
-    </section>
+    </header>
   );
 };
 

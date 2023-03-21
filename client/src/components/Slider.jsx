@@ -48,7 +48,7 @@ const SliderComponent = () => {
     arrows: false,
   };
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden mt-8">
       <Slider {...settings} children={slideList}></Slider>
     </div>
   );

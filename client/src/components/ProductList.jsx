@@ -2,7 +2,7 @@ import ProductItem from "./ProductItem";
 import banner from "../assets/mpvc.jpg";
 const ProductList = () => {
   return (
-    <div className="app__container mt-10">
+    <div className="app__container py-10">
       <h5 className="text-base font-light text-center">WHAT HOT</h5>
       <h1 className="text-center font-bold text-2xl">SẢN PHẨM NỔI BẬT</h1>
       <div className="grid grid-cols-4 gap-y-8 mt-8">

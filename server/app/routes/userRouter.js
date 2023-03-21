@@ -1,7 +1,13 @@
 const Router = require("express").Router();
 const UserController = require("../controllers/UserController");
-
-Router.put("/editProfile", UserController.editProfile);
-Router.get("/", UserController.getUser);
+const { verifyToken } = require("../middlewares/authToken");
+const upload = require("../utils/multer");
+Router.put(
+  "/",
+  verifyToken,
+  upload.single("avatar"),
+  UserController.editProfile
+);
+Router.get("/", verifyToken, UserController.getUser);
 
 module.exports = Router;
