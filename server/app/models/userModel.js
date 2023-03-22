@@ -30,6 +30,7 @@ const userSchema = new Schema(
       default:
         "https://res.cloudinary.com/dv6mjv2ib/image/upload/v1676603950/t%E1%BA%A3i_xu%E1%BB%91ng_teirok.jpg",
     },
+    bookmarks: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   },
   {
     timestamps: true,

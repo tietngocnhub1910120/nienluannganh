@@ -165,45 +165,11 @@ const Header = () => {
           <li className="header__nav-item relative cursor-pointer text-base font-medium">
             <Link
               to={"/products"}
-              className="header__nav-link flex items-center hover:text-[#B49149] peer"
+              className="header__nav-link flex items-center hover:text-[#B49149] "
               title="SẢN PHẨM"
             >
-              SẢN PHẨM <MdOutlineArrowDropDown className="text-lg " />
+              SẢN PHẨM
             </Link>
-            <ul
-              className="header__subnav duration-300 invisible opacity-0 -translate-y-0 peer-hover:visible peer-hover:opacity-100
-             peer-hover:translate-y-6 hover:visible hover:opacity-100 hover:translate-y-6 absolute left-0 bg-white w-[280px] border-t-4 border-t-[#b18a3b] pt-6 pl-6
-             after:content-[''] after:w-full after:h-10 after:bg-transparent after:absolute after:left-0 after:-top-5 z-10"
-            >
-              <li className="header__subnav-item cursor-pointer pb-6 hover:text-[#B49149] flex items-center justify-between">
-                <span className="header__subnav-link text-base font-normal">
-                  Nội thất phòng khách
-                </span>
-                <MdChevronRight className="mr-2 text-lg" />
-              </li>
-              <li className="header__subnav-item cursor-pointer pb-6 hover:text-[#B49149] flex items-center justify-between ">
-                <span className="header__subnav-link text-base font-normal  ">
-                  Nội thất phòng ngủ
-                </span>
-                <MdChevronRight className="mr-2 text-lg" />
-              </li>
-              <li className="header__subnav-item cursor-pointer pb-6 hover:text-[#B49149] flex items-center justify-between ">
-                <span className="header__subnav-link text-base font-normal  ">
-                  Nội thất văn phòng
-                </span>
-                <MdChevronRight className="mr-2 text-lg" />
-              </li>
-              <li className="header__subnav-item cursor-pointer pb-6 hover:text-[#B49149] ">
-                <span className="header__subnav-link text-base font-normal  ">
-                  Nội thất phòng bếp
-                </span>
-              </li>
-              <li className="header__subnav-item cursor-pointer pb-6 hover:text-[#B49149] ">
-                <span className="header__subnav-link text-base font-normal  ">
-                  Đồ trang trí
-                </span>
-              </li>
-            </ul>
           </li>
           <li className="header__nav-item cursor-pointer">
             <Link

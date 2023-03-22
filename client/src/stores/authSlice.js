@@ -18,9 +18,30 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
+    saveBookmarkAction: (state, actions) => {
+      state.user = {
+        ...state.user,
+        bookmarks: [...state.user.bookmarks, actions.payload],
+      };
+    },
+    unBookmarkAction: (state, actions) => {
+      state.user = {
+        ...state.user,
+        bookmarks: [
+          ...state.user.bookmarks.filter(
+            (productId) => productId !== actions.payload
+          ),
+        ],
+      };
+    },
   },
 });
 
-export const { saveAuthAction, logoutAction, updateAuthAction } =
-  authSlice.actions;
+export const {
+  saveAuthAction,
+  logoutAction,
+  updateAuthAction,
+  saveBookmarkAction,
+  unBookmarkAction,
+} = authSlice.actions;
 export default authSlice.reducer;

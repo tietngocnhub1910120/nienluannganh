@@ -14,7 +14,7 @@ class AuthController {
       if (!user) {
         return next(createError(401, "Tài khoản người dùng không tồn tại!"));
       }
-      if (!argon2.verify(user.password, password)) {
+      if (!(await argon2.verify(user.password, password))) {
         return next(createError(401, "Sai mật khẩu!"));
       }
 
@@ -34,26 +34,33 @@ class AuthController {
     }
   }
   async register(req, res, next) {
-    const { email, password, comfirmPassword, phone } = req.body;
+    const { email, password, comfirmPassword, phone, username } = req.body;
 
-    if (!email || !password) {
-      return next(createError(401, "Trường email hoặc mật khẩu bị thiếu!"));
-    }
-    if (!phone) {
-      return next(createError(401, "Trường số điện thoại bị thiếu!"));
-    }
-    if (password !== comfirmPassword) {
-      return next(createError(401, "Mật khẩu không khớp!"));
-    }
     try {
+      let user = await User.findOne({ email });
+      if (user) {
+        return next(createError(401, "Email này đã được đăng ký!"));
+      }
+
+      if (!email || !password) {
+        return next(createError(401, "Trường email hoặc mật khẩu bị thiếu!"));
+      }
+      if (!phone) {
+        return next(createError(401, "Trường số điện thoại bị thiếu!"));
+      }
+      if (password !== comfirmPassword) {
+        return next(createError(401, "Mật khẩu không khớp!"));
+      }
+
       const hashPassword = await argon2.hash(password);
       const newUser = new User({
         email,
         password: hashPassword,
         phone,
+        username,
       });
       await newUser.save();
-
+      user = await User.findById(newUser._id);
       const accessToken = jwt.sign(
         { userId: newUser._id, isAdmin: newUser.admin },
         process.env.ACCESS_TOKEN_SECRET
@@ -63,6 +70,7 @@ class AuthController {
         success: true,
         message: "Đăng ký tài khoản thành công!",
         accessToken,
+        user,
       });
     } catch (error) {
       next(error);

@@ -1,8 +1,26 @@
 import { Link } from "react-router-dom";
 import errorImage from "../assets/placeholder.webp";
 import { MdBookmark, MdAddShoppingCart, MdRemoveRedEye } from "react-icons/md";
+import { useState } from "react";
+import { addBookmark, unBookmark } from "../Api/authAPI";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 const ProductItem = (props) => {
-  const { data } = props;
+  const { data, savedProduct } = props;
+  const [activeBookmark, setActiveBookmark] = useState(false);
+  const dispatch = useDispatch();
+  const handleSaveProduct = async (productId) => {
+    if (!activeBookmark) {
+      const { success } = await addBookmark(productId, dispatch);
+      success && setActiveBookmark(!activeBookmark);
+    } else {
+      const { success } = await unBookmark(productId, dispatch);
+      success && setActiveBookmark(!activeBookmark);
+    }
+  };
+  useEffect(() => {
+    setActiveBookmark(savedProduct ? true : false);
+  }, [data, savedProduct]);
   return (
     <div className="flex flex-col text-center group relative overflow-hidden">
       <div className="flex">
@@ -29,7 +47,14 @@ const ProductItem = (props) => {
         <button className="text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white">
           <MdAddShoppingCart />
         </button>
-        <button className="text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white">
+        <button
+          onClick={() => {
+            handleSaveProduct(data?._id);
+          }}
+          className={`text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white ${
+            activeBookmark && "bg-primary text-white"
+          }`}
+        >
           <MdBookmark />
         </button>
         <Link to={`/products/${data?._id}`}>

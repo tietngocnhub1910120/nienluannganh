@@ -82,7 +82,7 @@ const ProductDetail = () => {
                 <h1 className="font-semibold text-xl">{product.title}</h1>
                 <p className="text-base">SKU : {product.sku}</p>
                 <h5 className="text-red-400 text-2xl font-medium mt-2">
-                  {product.price.toLocaleString("en-US", {
+                  {product.price?.toLocaleString("en-US", {
                     style: "currency",
                     currency: "VND",
                   })}
@@ -149,7 +149,7 @@ const ProductDetail = () => {
                   <p className="font-bold text-lg">
                     Tags:
                     <span className="text-gray-500 text-sm font-normal bg-gray-200 p-1 rounded-sm ml-2">
-                      Bàn
+                      {product.type}
                     </span>
                   </p>
                 </div>

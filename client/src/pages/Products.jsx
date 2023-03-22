@@ -1,28 +1,30 @@
-import ProductItem from "../components/ProductItem";
-import Category from "../components/Category";
-import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getAllProduct } from "../Api/productAPI";
 import { useDispatch, useSelector } from "react-redux";
-
+import ProductItem from "../components/ProductItem";
+import Category from "../components/Category";
+import Header from "../components/Header";
+import renderSavedProduct from "../utils/renderSavedProduct";
 const Products = () => {
-  const [dataSort, setDataSort] = useState("mới");
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
+  const user = useSelector((state) => state.auth.user);
+
   const handleSortting = (event) => {
-    setDataSort(event.target.value);
+    setFilters({ ...filters, date: event.target.value });
   };
   const [filters, setFilters] = useState({
     page: 1,
     limit: 8,
-    time: null,
+    date: "desc",
   });
   useEffect(() => {
     const fetchProducts = async (params) => {
       await getAllProduct(dispatch, params);
     };
     fetchProducts(filters);
-  }, []);
+  }, [filters]);
+  console.log(filters);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
@@ -35,25 +37,26 @@ const Products = () => {
               <div>
                 <span className="text-sm">SẮP XẾP THEO:</span>
                 <select
-                  name="value"
-                  value={dataSort}
+                  name="date"
+                  value={filters.date}
                   onChange={handleSortting}
                   className="text-sm py-1 px-2"
                 >
-                  <option value="tăng">Tăng dần</option>
-                  <option value="giảm">Giảm dần</option>
-                  <option value="a-z">Từ A-Z</option>
-                  <option value="z-a">Từ Z-A</option>
-                  <option value="mới">Mới nhất</option>
-                  <option value="cũ">Cũ nhất</option>
-                  <option value="bán chạy">Bán chạy nhất</option>
+                  <option value="desc">Mới nhất</option>
+                  <option value="asc">Cũ nhất</option>
                 </select>
               </div>
             </div>
             <div className="mt-7 grid grid-cols-3 gap-8">
               {products && products.length > 0 ? (
                 products.map((product) => {
-                  return <ProductItem key={product._id} data={product} />;
+                  return (
+                    <ProductItem
+                      key={product._id}
+                      data={product}
+                      savedProduct={renderSavedProduct(user, product._id)}
+                    />
+                  );
                 })
               ) : (
                 <p>Không có sản phẩm</p>

@@ -44,3 +44,12 @@ export const createNewProduct = async (payload, dispatch) => {
     showToast("error", error.message);
   }
 };
+export const editProduct = async (payload, id, dispatch) => {
+  try {
+    const data = await axiosClient.put(`/api/product/${id}/edit`, payload);
+    // dispatch(addProductAction(data));
+    showToast("success", data.message);
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};

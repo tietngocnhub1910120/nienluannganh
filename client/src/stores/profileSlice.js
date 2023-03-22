@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const profileSlice = createSlice({
-  name: "product",
+  name: "profile",
   initialState: {
     profile: {},
   },

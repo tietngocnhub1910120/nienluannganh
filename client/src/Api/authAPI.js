@@ -1,6 +1,11 @@
 import axiosClient from "./axiosClient";
 import showToast from "./showToast";
-import { saveAuthAction, logoutAction } from "../stores/authSlice";
+import {
+  saveAuthAction,
+  logoutAction,
+  saveBookmarkAction,
+  unBookmarkAction,
+} from "../stores/authSlice";
 export const login = async (user, dispatch) => {
   try {
     const data = await axiosClient.post("/api/auth/login", user);
@@ -27,5 +32,27 @@ export const logout = async (dispatch) => {
     dispatch(logoutAction());
   } catch (error) {
     showToast("error", error.message);
+  }
+};
+export const addBookmark = async (productId, dispatch) => {
+  try {
+    const data = await axiosClient.post("/api/user/addbookmark", { productId });
+    showToast("success", data.message);
+    dispatch(saveBookmarkAction(productId));
+    return data;
+  } catch (error) {
+    showToast("error", error.message);
+    return error;
+  }
+};
+export const unBookmark = async (productId, dispatch) => {
+  try {
+    const data = await axiosClient.post("/api/user/unbookmark", { productId });
+    showToast("success", data.message);
+    dispatch(unBookmarkAction(productId));
+    return data;
+  } catch (error) {
+    showToast("error", error.message);
+    return error;
   }
 };

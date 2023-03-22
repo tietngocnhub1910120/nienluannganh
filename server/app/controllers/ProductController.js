@@ -25,9 +25,9 @@ class ProductController {
         type: req.query.type,
       };
     }
-    const pageItem = 8;
+    const pageItem = req.query.pageItem || 8;
     const page = req.query.page || 1;
-    const sort = req.query.date || "-createdAt";
+    const sort = req.query.date || "desc";
 
     try {
       const products = await Product.find({
@@ -36,7 +36,7 @@ class ProductController {
         .where(filter)
         .skip(pageItem * page - pageItem)
         .limit(pageItem)
-        .sort(sort);
+        .sort({ updatedAt: sort });
 
       res.status(200).json({
         success: true,

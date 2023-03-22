@@ -17,6 +17,7 @@ import ManageProduct from "./pages/ManageProduct";
 import AddProduct from "./pages/AddProduct";
 import RequireAuth from "./utils/RequireAuth";
 import AdminRoutes from "./utils/AdminPermission";
+import Bookmarks from "./pages/Bookmarks";
 const App = () => {
   return (
     <div className="w-full">
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/cart/checkout" element={<Checkout />}></Route>
           <Route path="/user/profile" element={<Profile />}></Route>
           <Route path="/user/purchase" element={<Purchase />}></Route>
+          <Route path="/user/bookmark" element={<Bookmarks />}></Route>
           <Route path="/tracking-order" element={<TrackingOrder />}></Route>
           <Route element={<AdminRoutes />}>
             <Route path="/manage/order" element={<ManageOrder />}></Route>

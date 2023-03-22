@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createNewProduct } from "../Api/productAPI";
 function FormProduct(props) {
   const { isEdit, hide } = props;
+  const [isLoading, setIsLoading] = useState(false);
   const { product } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [images, setImages] = useState([]);
@@ -27,6 +28,7 @@ function FormProduct(props) {
     handleBlur,
     handleSubmit,
     setFieldValue,
+    resetForm,
   } = useFormik({
     initialValues: {
       title: "",
@@ -44,6 +46,7 @@ function FormProduct(props) {
       price: Yup.number().required("Vui lòng nhập giá sản phẩm"),
     }),
     onSubmit: async (values) => {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("description", description);
@@ -58,6 +61,10 @@ function FormProduct(props) {
       if (!isEdit) {
         await createNewProduct(formData, dispatch);
       }
+      setIsLoading(false);
+
+      resetForm();
+      setDescription("");
     },
   });
   const handleEditor = (newContent) => {
@@ -176,7 +183,7 @@ function FormProduct(props) {
           </div>
         )}
         <div className="flex gap-2 mt-4">
-          <Button type="submit" colorScheme={"green"}>
+          <Button type="submit" colorScheme={"green"} isLoading={isLoading}>
             {isEdit ? "Cập nhật" : "Thêm"}
           </Button>
           {isEdit ? <Button onClick={hide}>Hủy</Button> : null}

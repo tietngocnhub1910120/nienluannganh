@@ -8,7 +8,7 @@ const Purchase = () => {
       <main className="container mx-auto">
         <Header />
         <section className="grid grid-cols-5 mt-8">
-          <ProfileSidebar />
+          <ProfileSidebar active="order" />
           <div className="col-span-4 ">
             <ul className="max-h-screen overflow-y-auto">
               <li className="px-8 py-4 bg-white drop-shadow-xl mb-8">

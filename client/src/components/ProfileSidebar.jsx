@@ -1,8 +1,13 @@
-import { MdOutlinePersonOutline, MdOutlineEventNote } from "react-icons/md";
+import {
+  MdOutlinePersonOutline,
+  MdOutlineEventNote,
+  MdBookmark,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const ProfileSidebar = () => {
+const ProfileSidebar = (props) => {
+  const { active } = props;
   const { profile } = useSelector((state) => state.profile);
   return (
     <div className="col-span-1">
@@ -25,13 +30,37 @@ const ProfileSidebar = () => {
         <li className="flex gap-2 items-center ">
           <MdOutlinePersonOutline className="text-3xl text-blue-500" />{" "}
           <Link to={"/user/profile"}>
-            <span className="hover:text-black/70">Tài khoản của tôi</span>
+            <span
+              className={`hover:text-black/70 ${
+                active === "account" ? "text-primary" : ""
+              }`}
+            >
+              Tài khoản của tôi
+            </span>
           </Link>
         </li>
         <li className="flex gap-2 items-center mt-4 ">
           <MdOutlineEventNote className="text-3xl text-blue-500" />{" "}
           <Link to={"/user/purchase"}>
-            <span className="hover:text-black/70">Đơn mua</span>
+            <span
+              className={`hover:text-black/70 ${
+                active === "order" ? "text-primary" : ""
+              }`}
+            >
+              Đơn mua
+            </span>
+          </Link>
+        </li>
+        <li className="flex gap-2 items-center mt-4 ">
+          <MdBookmark className="text-3xl text-blue-500" />{" "}
+          <Link to={"/user/bookmark"}>
+            <span
+              className={`hover:text-black/70 ${
+                active === "bookmark" ? "text-primary" : ""
+              }`}
+            >
+              Yêu thích
+            </span>
           </Link>
         </li>
       </ul>

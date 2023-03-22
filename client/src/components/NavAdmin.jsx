@@ -10,9 +10,11 @@ import { Link } from "react-router-dom";
 const NavAdmin = (props) => {
   return (
     <div className="">
-      <figure className="py-10 px-10">
-        <img src={avatar} alt="" />
-      </figure>
+      <Link to={"/"}>
+        <figure className="py-10 px-10">
+          <img src={avatar} alt="" />
+        </figure>
+      </Link>
       <ul>
         <Link to={"/manage/product"}>
           <li
