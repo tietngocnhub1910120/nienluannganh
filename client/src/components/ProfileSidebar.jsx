@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const ProfileSidebar = (props) => {
   const { active } = props;
-  const { profile } = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.user);
   return (
     <div className="col-span-1">
       <div className="flex gap-2">

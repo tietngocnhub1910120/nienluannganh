@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 import showToast from "./showToast";
-import { updateProfileAction, getProfileAction } from "../stores/profileSlice";
+import { updateProfileAction, getProfileAction } from "../stores/userSlice";
 import { updateAuthAction } from "../stores/authSlice";
 
 export const updateProfile = async (payload, dispatch) => {

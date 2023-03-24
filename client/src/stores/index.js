@@ -4,10 +4,9 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
 import authSlice from "./authSlice";
-import cartSlice from "./cartSlice";
 import orderSlice from "./orderSlice";
 import productSlice from "./productSlice";
-import profileSlice from "./profileSlice";
+import userSlice from "./userSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,8 +17,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authSlice,
   product: productSlice,
-  profile: profileSlice,
-  cart: cartSlice,
+  user: userSlice,
   order: orderSlice,
   //
 });

@@ -34,10 +34,8 @@ const SignIn = () => {
     });
 
   const handleSignIn = async (values) => {
-    const { success } = await login(values, dispatch);
-    if (success) {
-      navigate("/");
-    }
+    const { user } = await login(values, dispatch);
+    !user.admin ? navigate("/") : navigate("/manage");
   };
   return (
     <>

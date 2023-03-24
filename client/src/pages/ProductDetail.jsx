@@ -1,33 +1,41 @@
-import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
-import srcProduct2 from "../assets/upload_large.webp";
+import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { MdShoppingCart, MdDone, MdMoreHoriz } from "react-icons/md";
 import avatar from "../assets/profile.jpg";
 import Category from "../components/Category";
 import ProductItem from "../components/ProductItem";
 import CommentForm from "../components/CommentForm";
-import { MdShoppingCart, MdDone, MdMoreHoriz } from "react-icons/md";
-import { useParams } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
+import renderTotalPrice from "../utils/renderTotalPrice";
 import { getProduct } from "../Api/productAPI";
-import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../Api/cartAPI";
 const ProductDetail = () => {
   let { productId } = useParams();
   const { product } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [option, setOption] = useState(false);
   const [imageActive, setImageActive] = useState(null);
-  const [size, setSize] = useState("s");
-  const [index, setIndex] = useState(0);
-  const [color, setColor] = useState("red");
-  const data = [srcProduct1, srcProduct2];
-  const handleChooseSize = (event) => {
-    setSize(event.target.value);
-  };
+  const [infoProduct, setInfoProduct] = useState({
+    color: "",
+    quantity: 1,
+  });
   const handleChooseColor = (event) => {
-    setColor(event.target.value);
+    setInfoProduct({ ...infoProduct, color: event.target.value });
   };
-  const handleChooseImgae = (event) => {
-    setIndex(event.target.dataset.index);
+  const handleChangeQuantity = (string, number) => {
+    setInfoProduct({ ...infoProduct, quantity: number });
+  };
+  const handleAddCart = async (productId) => {
+    console.log(productId, infoProduct);
+    await addToCart(dispatch, productId, infoProduct);
   };
   useEffect(() => {
     const fetchProduct = async (id) => {
@@ -43,14 +51,22 @@ const ProductDetail = () => {
         return " ";
       }
     });
+    setInfoProduct(() => {
+      if (product.colors && product.colors.length > 0) {
+        return { ...infoProduct, color: product.colors[0] };
+      } else {
+        return { ...infoProduct, color: "" };
+      }
+    });
   }, [product]);
+  console.log(infoProduct);
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
         <Header />
         <section className="grid grid-cols-4 py-8">
-          <Category />
-          <div className="col-span-3 ">
+          {/* <Category /> */}
+          <div className="col-span-4 ">
             <div className="grid grid-cols-2 ">
               <div>
                 <figure>
@@ -89,20 +105,6 @@ const ProductDetail = () => {
                 </h5>
                 <div className="h-[1px] w-full bg-gray-300 my-2"></div>
                 <div>
-                  <label htmlFor="size" className="block text-sm font-semibold">
-                    Kích thước
-                  </label>
-                  <select
-                    name="size"
-                    value={size}
-                    onChange={handleChooseSize}
-                    className="p-2 border w-48 my-4 text-gray-700"
-                  >
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                  </select>
-                </div>
-                <div>
                   <label
                     htmlFor="color"
                     className="block text-sm font-semibold"
@@ -111,32 +113,51 @@ const ProductDetail = () => {
                   </label>
                   <select
                     name="color"
-                    value={color}
+                    value={infoProduct.color}
                     onChange={handleChooseColor}
                     className="p-2 border w-48 my-4 text-gray-700"
                   >
-                    <option value="red">red</option>
-                    <option value="white">white</option>
+                    {product && product?.colors?.length
+                      ? product?.colors?.map((color, index) => {
+                          return (
+                            <option key={`c${index}`} value={color}>
+                              {color}
+                            </option>
+                          );
+                        })
+                      : null}
                   </select>
                 </div>
-                <div>
+                <div className="mb-6">
                   <label
                     htmlFor="color"
                     className="block text-sm font-semibold"
                   >
                     Số lượng
                   </label>
-                  <input
-                    type="number"
-                    name="quantiy"
-                    defaultValue={1}
+
+                  <NumberInput
+                    mt={"3"}
+                    onChange={handleChangeQuantity}
+                    size="md"
+                    maxW={16}
+                    defaultValue={infoProduct.quantity}
                     min={1}
-                    max={28}
-                    className="p-2 my-4 w-16 border"
-                  />
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </div>
                 <div className="flex gap-4 mb-11">
-                  <div className="flex items-center bg-primary text-white w-full px-4 py-2 gap-2 cursor-pointer hover:bg-hover">
+                  <div
+                    onClick={() => {
+                      handleAddCart(productId);
+                    }}
+                    className="flex items-center bg-primary text-white w-full px-4 py-2 gap-2 cursor-pointer hover:bg-hover"
+                  >
                     <MdShoppingCart className="text-2xl" />
                     <span>Thêm vào giỏ</span>
                   </div>

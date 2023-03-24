@@ -1,15 +1,43 @@
 import { MdOutlineArrowDropDown } from "react-icons/md";
 
-const Category = () => {
+const Category = (props) => {
+  const { filters, setFilters } = props;
+  const handleSelectType = (value) => {
+    setFilters({ ...filters, type: value });
+  };
   return (
     <div>
-      <h2 className="text-base font-semibold">DANH MỤC</h2>
-      <ul className="ml-6">
-        <li className="flex justify-between items-center hover:text-primary duration-300 ease-linear my-6">
-          <span className="text-sm">Bàn</span>
+      <h2 className="text-lg font-semibold">DANH MỤC</h2>
+      <ul className="">
+        <li
+          onClick={() => {
+            handleSelectType("");
+          }}
+          className={`py-2 px-1 hover:text-black duration-300 ease-linear  ${
+            filters?.type === "" ? "bg-primary text-white" : ""
+          }`}
+        >
+          <span className="text-base font-semibold">Tất cả sản phẩm</span>
         </li>
-        <li className="flex justify-between items-center hover:text-primary duration-300 ease-linear my-6">
-          <span className="text-sm ">Ghế</span>
+        <li
+          onClick={() => {
+            handleSelectType("Table");
+          }}
+          className={`py-2 px-1 hover:text-black duration-300 ease-linear  ${
+            filters?.type === "Table" ? "bg-primary text-white" : ""
+          }`}
+        >
+          <span className="text-base font-semibold">Bàn</span>
+        </li>
+        <li
+          onClick={() => {
+            handleSelectType("Chair");
+          }}
+          className={`py-2 px-1 hover:text-black duration-300 ease-linear  ${
+            filters?.type === "Chair" ? "bg-primary text-white" : ""
+          }`}
+        >
+          <span className="text-base font-semibold">Ghế</span>
         </li>
       </ul>
     </div>

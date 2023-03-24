@@ -8,9 +8,9 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { updateProfile } from "../Api/profileAPI";
+import { updateProfile } from "../Api/userAPI";
 const ProfileForm = () => {
-  const { profile } = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [previewAvatar, setPreviewAvatar] = useState("");
   const [avatar, setAvatar] = useState(null);

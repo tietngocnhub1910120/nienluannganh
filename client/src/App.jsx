@@ -36,11 +36,12 @@ const App = () => {
           <Route path="/user/bookmark" element={<Bookmarks />}></Route>
           <Route path="/tracking-order" element={<TrackingOrder />}></Route>
           <Route element={<AdminRoutes />}>
+            <Route path="/manage" element={<Home />}></Route>
             <Route path="/manage/order" element={<ManageOrder />}></Route>
             <Route path="/manage/product" element={<ManageProduct />}></Route>
             <Route path="/manage/product/add" element={<AddProduct />}></Route>
-            <Route path="/unauthorized" element={<UnAuthorized />}></Route>
           </Route>
+          <Route path="/unauthorized" element={<UnAuthorized />}></Route>
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>

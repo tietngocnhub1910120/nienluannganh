@@ -44,9 +44,11 @@ const ProductItem = (props) => {
           : null}
       </div>
       <div className="flex gap-2 absolute top-2/3 ease-linear duration-300 left-full group-hover:left-1/3">
-        <button className="text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white">
-          <MdAddShoppingCart />
-        </button>
+        <Link to={`/products/${data?._id}`}>
+          <button className="text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white">
+            <MdAddShoppingCart />
+          </button>
+        </Link>
         <button
           onClick={() => {
             handleSaveProduct(data?._id);

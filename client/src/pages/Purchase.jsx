@@ -1,8 +1,16 @@
 import ProfileSidebar from "../components/ProfileSidebar";
 import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
 import Header from "../components/Header";
+import { getProfile } from "../Api/userAPI";
+import { useEffect } from "react";
 
 const Purchase = () => {
+  useEffect(() => {
+    const fetchProfile = async () => {
+      await getProfile(dispatch);
+    };
+    fetchProfile();
+  }, []);
   return (
     <div className="w-[80%] mx-auto">
       <main className="container mx-auto">

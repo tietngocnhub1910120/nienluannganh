@@ -5,10 +5,10 @@ import ProfileSidebar from "../components/ProfileSidebar";
 import Header from "../components/Header";
 import ProductItem from "../components/ProductItem";
 import renderSavedProduct from "../utils/renderSavedProduct";
-import { getProfile } from "../Api/profileAPI";
+import { getProfile } from "../Api/userAPI";
 const Bookmarks = () => {
   const user = useSelector((state) => state.auth.user);
-  const { profile } = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 

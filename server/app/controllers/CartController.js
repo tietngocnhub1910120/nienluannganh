@@ -27,7 +27,7 @@ class CartController {
           cart,
         });
       } else {
-        const newCart = new Cart({
+        const cart = new Cart({
           userId,
           products: [
             {
@@ -37,11 +37,11 @@ class CartController {
             },
           ],
         });
-        await newCart.save();
+        await cart.save();
         res.status(200).json({
           success: true,
           message: "Thêm sản phẩm thành công!",
-          newCart,
+          cart,
         });
       }
     } catch (error) {
@@ -140,7 +140,7 @@ class CartController {
           path: "products",
           populate: { path: "productId", select: "-description -colors" },
         });
-      if (!myCart) return next(createError(404, "Cart do not exist"));
+      // if (!myCart) return next(createError(404, "Cart do not exist"));
       res.status(200).json({
         success: true,
         message: "Get cart successfully!",

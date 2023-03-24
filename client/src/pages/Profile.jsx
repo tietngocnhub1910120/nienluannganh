@@ -5,7 +5,7 @@ import ProfileForm from "../components/ProfileForm";
 import ProfileSidebar from "../components/ProfileSidebar";
 import { useDispatch } from "react-redux";
 
-import { getProfile } from "../Api/profileAPI";
+import { getProfile } from "../Api/userAPI";
 
 const Profile = () => {
   const dispatch = useDispatch();

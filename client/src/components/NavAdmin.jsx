@@ -7,7 +7,13 @@ import {
   MdAdd,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { logout } from "../Api/authAPI";
+import { useDispatch } from "react-redux";
 const NavAdmin = (props) => {
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    await logout(dispatch);
+  };
   return (
     <div className="">
       <Link to={"/"}>
@@ -60,7 +66,10 @@ const NavAdmin = (props) => {
             <span className="text-xl font-medium">Thêm sản phẩm</span>
           </li>
         </Link>
-        <li className=" flex items-center gap-5  duration-200 cursor-pointer py-4 hover:bg-primary">
+        <li
+          onClick={handleLogout}
+          className=" flex items-center gap-5  duration-200 cursor-pointer py-4 hover:bg-primary"
+        >
           <MdLogout className="text-3xl ml-4" />
           <span className="text-xl font-medium">Đăng xuất</span>
         </li>

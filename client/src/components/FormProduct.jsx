@@ -16,10 +16,10 @@ function FormProduct(props) {
   const { isEdit, hide } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { product } = useSelector((state) => state.product);
-  const dispatch = useDispatch();
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState("");
   const [preview, setPreview] = useState([]);
+  const dispatch = useDispatch();
   const {
     values,
     errors,
@@ -65,6 +65,7 @@ function FormProduct(props) {
 
       resetForm();
       setDescription("");
+      setImages([]);
     },
   });
   const handleEditor = (newContent) => {

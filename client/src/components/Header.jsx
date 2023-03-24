@@ -1,22 +1,26 @@
 import logo from "../assets/logo.webp";
-import srcItem from "../assets/upload_28084a5fbcff41519efdb422e62c3f3e_large.webp";
 import { Link } from "react-router-dom";
 
-import {
-  MdPhone,
-  MdOutlineShoppingBag,
-  MdOutlineArrowDropDown,
-  MdSearch,
-  MdChevronRight,
-} from "react-icons/md";
+import { MdPhone, MdOutlineShoppingBag, MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import renderTotalPrice from "../utils/renderTotalPrice";
 import { logout } from "../Api/authAPI";
-const Header = () => {
+import { useEffect } from "react";
+import { getCart } from "../Api/cartAPI";
+const Header = (props) => {
+  const { activeHeader } = props;
   const user = useSelector((state) => state.auth.user);
+  const cart = useSelector((state) => state.user.cart);
   const dispatch = useDispatch();
   const handleLogout = async () => {
     await logout(dispatch);
   };
+  useEffect(() => {
+    const fetchCart = async () => {
+      await getCart(dispatch);
+    };
+    fetchCart();
+  }, []);
   return (
     <header className="w-full">
       <div className=" flex justify-between items-center h-28">
@@ -32,7 +36,7 @@ const Header = () => {
           <div className=" text-right divide-y-[1px] divide-black">
             <ul className=" flex gap-5 ">
               <li className=" flex items-center cursor-pointer">
-                <MdPhone /> 0794290085
+                <MdPhone /> 0378056713
               </li>
               {user ? (
                 <>
@@ -98,7 +102,7 @@ const Header = () => {
             <div className=" p-3 border-2 cursor-pointer relative peer  hover:border-[#B49149] duration-200 ease-linear">
               <MdOutlineShoppingBag className="text-4xl" />
               <span className=" text-center text-white w-6 rounded-full bg-[#B49149] absolute top-0 right-0 ">
-                2
+                {cart && cart.products?.length}
               </span>
             </div>
             <div className=" z-10 absolute -left-[288px] -translate-y-6 invisible opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">
@@ -106,33 +110,43 @@ const Header = () => {
                 Giỏ hàng của bạn
               </h3>
               <ul className=" pt-3">
-                <li className=" flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
-                  <div className="-info flex tems-center gap-2 w-4/5">
-                    <figure className="-img w-11">
-                      <img src={srcItem} alt="" />
-                    </figure>
-                    <span className="-name truncate">
-                      Ghế đẩu sang trọng bật nhất việt nam
-                    </span>
-                  </div>
-                  <span className="-price text-[#B49149]">$300000</span>
-                </li>
-                <li className=" flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 ">
-                  <div className=" flex tems-center gap-2 w-4/5">
-                    <figure className=" w-11">
-                      <img src={srcItem} alt="" />
-                    </figure>
-                    <span className=" truncate">
-                      Ghế đẩu sang trọng bật nhất việt nam
-                    </span>
-                  </div>
-                  <span className=" text-[#B49149]">$300000</span>
-                </li>
+                {cart && cart.products ? (
+                  cart.products.map((product) => {
+                    return (
+                      <li
+                        key={product._id}
+                        className=" flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 "
+                      >
+                        <div className="-info flex tems-center gap-2 w-4/5">
+                          <figure className="-img w-11">
+                            <img src={product.productId.urlImages[0]} alt="" />
+                          </figure>
+                          <span className=" truncate">
+                            {product.productId.title}
+                          </span>
+                        </div>
+                        <span className=" text-[#B49149]">
+                          {product.productId.price?.toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <p className="text-center">Không có sản phẩm</p>
+                )}
               </ul>
               <div className="w-100 h-0.5 bg-black my-4"></div>
               <div className=" flex justify-between mb-4 mx-3">
                 <span className="font-bold">TỔNG TIỀN:</span>
-                <span className="">$300000</span>
+                <span className="">
+                  {renderTotalPrice(cart.products)?.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
               </div>
               <div className=" flex justify-between mb-4 mx-3">
                 <Link to={"/cart"}>
@@ -152,52 +166,30 @@ const Header = () => {
       </div>
       <div className="header__bottom h-14 border-t-2 flex justify-between items-center">
         <ul className="header__nav flex gap-7">
-          <li className="header__nav-item cursor-pointer ">
-            <Link to={"/"}>
+          <Link to={"/"}>
+            <li className="">
               <span
-                className="header__nav-link hover:text-[#B49149] text-base font-medium"
+                className={`hover:text-[#B49149] text-base font-medium ${
+                  activeHeader === "home" && "text-primary"
+                }`}
                 title="TRANG CHỦ"
               >
                 TRANG CHỦ
               </span>
-            </Link>
-          </li>
-          <li className="header__nav-item relative cursor-pointer text-base font-medium">
-            <Link
-              to={"/products"}
-              className="header__nav-link flex items-center hover:text-[#B49149] "
-              title="SẢN PHẨM"
-            >
-              SẢN PHẨM
-            </Link>
-          </li>
-          <li className="header__nav-item cursor-pointer">
-            <Link
-              to={"/blog"}
-              className="header__nav-link hover:text-[#B49149] text-base font-medium"
-              title="BLOG"
-            >
-              BLOG
-            </Link>
-          </li>
-          <li className="header__nav-item cursor-pointer ">
-            <Link
-              to={"/about"}
-              className="header__nav-link hover:text-[#B49149] text-base font-medium"
-              title="GIỚI THIỆU"
-            >
-              GIỚI THIỆU
-            </Link>
-          </li>
-          <li className="header__nav-item cursor-pointer ">
-            <Link
-              to="/contact"
-              className="header__nav-link hover:text-[#B49149] text-base font-medium"
-              title="LIÊN HỆ"
-            >
-              LIÊN HỆ
-            </Link>
-          </li>
+            </li>
+          </Link>
+          <Link to={"/products"}>
+            <li className="">
+              <span
+                className={`hover:text-[#B49149] text-base font-medium ${
+                  activeHeader === "products" && "text-primary"
+                }`}
+                title="SẢN PHẨM"
+              >
+                SẢN PHẨM
+              </span>
+            </li>
+          </Link>
         </ul>
         <div className="relative header__search rounded-sm flex items-center bg-gray-200 duration-150 focus-within:bg-white focus-within:border focus-within:border-black">
           <input
