@@ -1,10 +1,14 @@
-import logo from "../assets/logo.webp";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import { MdPhone, MdOutlineShoppingBag, MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+//Library
+import { MdPhone, MdOutlineShoppingBag, MdSearch } from "react-icons/md";
+import logo from "../assets/logo.webp";
+//Utils
 import renderTotalPrice from "../utils/renderTotalPrice";
+//API
 import { logout } from "../Api/authAPI";
+import { getCart } from "../Api/cartAPI";
 const Header = (props) => {
   const { activeHeader } = props;
   const user = useSelector((state) => state.auth.user);
@@ -13,6 +17,12 @@ const Header = (props) => {
   const handleLogout = async () => {
     await logout(dispatch);
   };
+  useEffect(() => {
+    const fetchCart = async () => {
+      await getCart(dispatch);
+    };
+    user && fetchCart();
+  }, [user]);
   return (
     <header className="w-full">
       <div className=" flex justify-between items-center h-28">
@@ -161,9 +171,8 @@ const Header = (props) => {
           <Link to={"/"}>
             <li className="">
               <span
-                className={`hover:text-[#B49149] text-base font-medium ${
-                  activeHeader === "home" && "text-primary"
-                }`}
+                className={`hover:text-[#B49149] text-base font-medium ${activeHeader === "home" && "text-primary"
+                  }`}
                 title="TRANG CHỦ"
               >
                 TRANG CHỦ
@@ -173,9 +182,8 @@ const Header = (props) => {
           <Link to={"/products"}>
             <li className="">
               <span
-                className={`hover:text-[#B49149] text-base font-medium ${
-                  activeHeader === "products" && "text-primary"
-                }`}
+                className={`hover:text-[#B49149] text-base font-medium ${activeHeader === "products" && "text-primary"
+                  }`}
                 title="SẢN PHẨM"
               >
                 SẢN PHẨM

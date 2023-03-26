@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import CartItem from "../components/cart/cartItem";
 import renderTotalPrice from "../utils/renderTotalPrice";
+import { removeFromCart, updateCart } from "../Api/cartAPI";
 const Cart = () => {
   const cart = useSelector((state) => state.user.cart);
   const [amount, setAmount] = useState(0);
+  const dispatch = useDispatch()
+  const handleUpdateCart = async (productId, payload) => {
+    await updateCart(dispatch, productId, payload)
+  }
+  const handleRemoveFromCart = async (productId, payload) => {
+    await removeFromCart(dispatch, productId, payload)
+  }
+
   useEffect(() => {
     if (cart.products) {
       setAmount(renderTotalPrice(cart.products));
@@ -21,7 +30,7 @@ const Cart = () => {
           <ul className="col-span-2">
             {cart && cart.products ? (
               cart.products.map((product) => {
-                return <CartItem key={product._id} product={product} />;
+                return <CartItem key={product._id} product={product} handleUpdateCart={handleUpdateCart} handleRemoveFromCart={handleRemoveFromCart} />;
               })
             ) : (
               <p>Không có sản phẩm</p>

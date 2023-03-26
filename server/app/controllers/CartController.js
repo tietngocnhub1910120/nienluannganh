@@ -7,12 +7,15 @@ class CartController {
     const { productId } = req.params;
     const { quantity, color } = req.body;
     try {
-      const cart = await Cart.findOne({ userId });
+      let cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
+        .populate({
+          path: "products",
+          populate: { path: "productId", select: "-description -colors" },
+        });
       if (cart) {
         const itemIndex = cart.products.findIndex((item) => {
-          return item.productId.toString() === productId && item.color == color;
+          return item.productId._id.toString() === productId && item.color == color;
         });
-        console.log(itemIndex);
         if (itemIndex <= -1) {
           cart.products.push({ productId, quantity, color });
         } else {
@@ -21,6 +24,11 @@ class CartController {
             cart.products[itemIndex].quantity + Number(quantity);
         }
         await cart.save();
+        cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
+          .populate({
+            path: "products",
+            populate: { path: "productId", select: "-description -colors" },
+          });
         res.status(200).json({
           success: true,
           message: "Thêm sản phẩm thành công!",
@@ -37,7 +45,13 @@ class CartController {
             },
           ],
         });
-        await cart.save();
+        await cart.save().populate("userId", "-password -admin")
+          .populate({
+            path: "products",
+            populate: { path: "productId", select: "-description -colors" },
+          });
+
+        console.log(cart);
         res.status(200).json({
           success: true,
           message: "Thêm sản phẩm thành công!",
@@ -53,10 +67,14 @@ class CartController {
     const { color } = req.body;
     const { userId } = req.user;
     try {
-      const cart = await Cart.findOne({ userId });
+      const cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
+        .populate({
+          path: "products",
+          populate: { path: "productId", select: "-description -colors" },
+        });
       const itemIndex = cart.products.findIndex(
         (product) =>
-          product.productId.toString() === productId && product.color === color
+          product.productId._id.toString() === productId && product.color === color
       );
 
       cart.products.pop(itemIndex);
@@ -65,7 +83,7 @@ class CartController {
         return res.status(200).json({
           success: true,
           message: "Xóa sản phẩm thành công!",
-          cart,
+          cart: [],
         });
       }
       await cart.save();
@@ -89,10 +107,16 @@ class CartController {
     const { quantity, color } = req.body;
     const { userId } = req.user;
     try {
-      const cart = await Cart.findOne({ userId });
+      const cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
+        .populate({
+          path: "products",
+          populate: { path: "productId", select: "-description -colors" },
+        });
       const itemIndex = cart.products.findIndex(
-        (item) =>
-          item.productId.toString() === productId && item.color === color
+        (item) => {
+          console.log(item.productId._id, productId)
+          return item.productId._id.toString() === productId && item.color === color
+        }
       );
       // update quantity product
       cart.products[itemIndex].quantity = quantity;
