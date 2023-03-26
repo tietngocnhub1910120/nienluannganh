@@ -128,7 +128,7 @@ const Header = (props) => {
                           </span>
                         </div>
                         <span className=" text-[#B49149]">
-                          {product?.productId.price?.toLocaleString("en-US", {
+                          {Number(product?.productId.price * product.quantity).toLocaleString("en-US", {
                             style: "currency",
                             currency: "VND",
                           })}

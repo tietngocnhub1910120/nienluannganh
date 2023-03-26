@@ -45,7 +45,7 @@ const CartItem = ({ product, handleUpdateCart, handleRemoveFromCart }) => {
         Màu sắc : {product.color}
       </span>
       <span>
-        {product?.productId.price?.toLocaleString("en-US", {
+        {Number(product?.productId.price * product.quantity).toLocaleString("en-US", {
           style: "currency",
           currency: "VND",
         })}

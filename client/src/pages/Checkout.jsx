@@ -1,24 +1,56 @@
-import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
-import FormCheckout from "../components/Form/CheckoutForm";
-import { MdDelete } from "react-icons/md";
-
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { MdDelete } from "react-icons/md";
+import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
+
 import Header from "../components/Header";
+import FormCheckout from "../components/Form/CheckoutForm";
+import { getDistricts, getProvinces, getWards } from "../Api/proviceAPI";
 
 const Checkout = () => {
   const [quantity, setQuantity] = useState(1);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+
+  const [selected, setSelected] = useState({
+    province: '', //province_name
+    district: '', //district_name
+    ward: '', //ward_name
+  })
   const handleIncrement = (count) => {
     if (quantity === 1 && count === -1) return;
     setQuantity(quantity + count);
   };
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      const provinces = await getProvinces();
+      setProvinces(provinces);
+    }
+    fetchProvinces()
+  }, [])
+  useEffect(() => {
+    const fetchDistricts = async (code) => {
+      const districts = await getDistricts(code);
+      setDistricts(districts)
+    }
+    selected?.province.province_id && fetchDistricts(selected?.province.province_id)
+  }, [selected.province])
+  useEffect(() => {
+    const fetchWards = async (code) => {
+      const wards = await getWards(code);
+      setWards(wards)
+    }
+    selected?.district.district_id && fetchWards(selected?.district.district_id)
+  }, [selected.district])
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
         <Header />
         <section className="grid grid-cols-7 gap-4 mt-8">
           <div className="col-span-4">
-            <FormCheckout />
+            <FormCheckout districts={districts} provinces={provinces} wards={wards} selected={selected} setSelected={setSelected} />
           </div>
           <div className="col-span-3">
             <ul>
