@@ -1,6 +1,6 @@
-import srcItem1 from "../assets/slideshow_1.webp";
-import srcItem2 from "../assets/slideshow_2.webp";
-import srcItem3 from "../assets/slideshow_3.webp";
+import srcItem1 from "../../assets/slideshow_1.webp";
+import srcItem2 from "../../assets/slideshow_2.webp";
+import srcItem3 from "../../assets/slideshow_3.webp";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

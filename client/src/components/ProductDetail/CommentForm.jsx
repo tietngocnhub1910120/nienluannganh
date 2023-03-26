@@ -5,13 +5,13 @@ const CommentForm = () => {
       <textarea
         className="py-1 px-2 outline-none border rounded-md"
         name="comment"
-        cols="70"
+        cols="100"
         rows="6"
-        placeholder="Viết một bình luận..."
+        placeholder="Viết đánh giá..."
       ></textarea>
 
       <button className="block px-3 py-2 mt-2 bg-blue-700 rounded-md text-white">
-        Đăng bình luận
+        Đánh giá
       </button>
     </div>
   );

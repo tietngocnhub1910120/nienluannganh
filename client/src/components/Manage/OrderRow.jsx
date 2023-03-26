@@ -1,4 +1,4 @@
-import { renderStatusOrder } from "../utils/renderStatusOrder";
+import { renderStatusOrder } from "../../utils/renderStatusOrder";
 const OrderRow = (props) => {
   return (
     <tbody className="divide-y divide-gray-100 border-t border-gray-100">

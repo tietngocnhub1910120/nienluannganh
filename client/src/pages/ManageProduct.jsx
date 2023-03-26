@@ -1,8 +1,6 @@
 import { useEffect } from "react";
-import { MdSearch } from "react-icons/md";
-import avatar from "../assets/avatar.jpg";
 import NavAdmin from "../components/NavAdmin";
-import ProductTable from "../components/ProductTable";
+import ProductTable from "../components/Manage/ProductTable";
 import TopPane from "../components/TopPane";
 import { getAllProduct } from "../Api/productAPI";
 import { useDispatch } from "react-redux";

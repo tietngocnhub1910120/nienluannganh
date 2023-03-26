@@ -1,5 +1,5 @@
 import NavAdmin from "../components/NavAdmin";
-import OrderRow from "../components/OrderRow";
+import OrderRow from "../components/Manage/OrderRow";
 import TopPane from "../components/TopPane";
 const ManageOrder = () => {
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,11 +8,13 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { login } from "../Api/authAPI";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { getCart } from "../Api/cartAPI";
 const SignIn = () => {
+  const user = useSelector(state => state.auth.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
@@ -35,14 +37,20 @@ const SignIn = () => {
 
   const handleSignIn = async (values) => {
     const { user } = await login(values, dispatch);
-    !user.admin ? navigate("/") : navigate("/manage");
+    user && user.admin ? navigate("/manage") : navigate("/");
   };
+  useEffect(() => {
+    const fetchCart = async () => {
+      await getCart(dispatch);
+    };
+    user && fetchCart();
+  }, [user]);
   return (
     <>
       <div className="w-[80%] mx-auto">
         <div className="container mx-auto ">
           <Header />
-          <div className="my-[131px]">
+          <div className="my-[130px]">
             <h1 className="text-center text-xl font-bold text-black">
               ĐĂNG NHẬP
             </h1>

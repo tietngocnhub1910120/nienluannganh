@@ -1,4 +1,4 @@
-import ProfileSidebar from "../components/ProfileSidebar";
+import ProfileSidebar from "../components/Profile/ProfileSidebar";
 import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
 import Header from "../components/Header";
 import { getProfile } from "../Api/userAPI";

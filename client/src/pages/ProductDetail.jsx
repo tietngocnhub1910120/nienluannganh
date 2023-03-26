@@ -10,11 +10,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { MdShoppingCart, MdDone, MdMoreHoriz } from "react-icons/md";
 import avatar from "../assets/profile.jpg";
-import Category from "../components/Category";
 import ProductItem from "../components/ProductItem";
-import CommentForm from "../components/CommentForm";
+import CommentForm from "../components/ProductDetail/CommentForm";
 import Header from "../components/Header";
-import renderTotalPrice from "../utils/renderTotalPrice";
 import { getProduct } from "../Api/productAPI";
 import { addToCart } from "../Api/cartAPI";
 const ProductDetail = () => {
@@ -65,7 +63,6 @@ const ProductDetail = () => {
       <div className="container mx-auto">
         <Header />
         <section className="grid grid-cols-4 py-8">
-          {/* <Category /> */}
           <div className="col-span-4 ">
             <div className="grid grid-cols-2 ">
               <div>

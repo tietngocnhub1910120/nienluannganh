@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const NotFound = () => {
+  const navigate = useNavigate()
   return (
     <section className="flex items-center h-full p-16 dark:bg-gray-900 dark:text-gray-100">
       <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
@@ -14,12 +15,12 @@ const NotFound = () => {
             Đừng lo lắng, bạn có thể tìm thấy nhiều thứ khác trên trang chủ của
             chúng tôi.
           </p>
-          <Link
-            to="/"
-            className="px-8 py-3 font-semibold rounded bg-[#B49149] text-white dark:bg-violet-400 dark:text-gray-900"
+          <span
+            onClick={() => { navigate(-1) }}
+            className="cursor-pointer px-8 py-3 font-semibold rounded bg-[#B49149] text-white dark:bg-violet-400 dark:text-gray-900"
           >
-            Quay về trang chủ
-          </Link>
+            Quay về
+          </span>
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
-import FormCheckout from "../components/CheckoutForm";
+import FormCheckout from "../components/Form/CheckoutForm";
 import { MdDelete } from "react-icons/md";
 
 import { Link } from "react-router-dom";

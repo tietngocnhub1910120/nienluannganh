@@ -11,10 +11,10 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProduct, deleteProduct } from "../Api/productAPI";
-import InstanceModal from "./modal/InstanceModal";
-import FormProduct from "./FormProduct";
-import VerifyModal from "./modal/VerifyModal";
+import { getProduct, deleteProduct } from "../../Api/productAPI";
+import InstanceModal from "../modal/InstanceModal";
+import FormProduct from "../Form/FormProduct";
+import VerifyModal from "../modal/VerifyModal";
 const ProductTable = () => {
   const { products } = useSelector((state) => state.product);
   const [productId, setProductId] = useState(null);

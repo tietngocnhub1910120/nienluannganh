@@ -34,7 +34,7 @@ const App = () => {
           <Route path="/user/profile" element={<Profile />}></Route>
           <Route path="/user/purchase" element={<Purchase />}></Route>
           <Route path="/user/bookmark" element={<Bookmarks />}></Route>
-          <Route path="/tracking-order" element={<TrackingOrder />}></Route>
+          <Route path="/tracking-order/:orderId" element={<TrackingOrder />}></Route>
           <Route element={<AdminRoutes />}>
             <Route path="/manage" element={<Home />}></Route>
             <Route path="/manage/order" element={<ManageOrder />}></Route>

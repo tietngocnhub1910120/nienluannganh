@@ -1,8 +1,8 @@
-import ProductItem from "./ProductItem";
-import banner from "../assets/mpvc.jpg";
+import ProductItem from "../ProductItem";
+import banner from "../../assets/mpvc.jpg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import renderSavedProduct from "../utils/renderSavedProduct";
+import renderSavedProduct from "../../utils/renderSavedProduct";
 const ProductList = () => {
   const products = useSelector((state) => state.product.products);
   const user = useSelector((state) => state.auth.user);

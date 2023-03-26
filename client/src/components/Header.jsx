@@ -5,8 +5,6 @@ import { MdPhone, MdOutlineShoppingBag, MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import renderTotalPrice from "../utils/renderTotalPrice";
 import { logout } from "../Api/authAPI";
-import { useEffect } from "react";
-import { getCart } from "../Api/cartAPI";
 const Header = (props) => {
   const { activeHeader } = props;
   const user = useSelector((state) => state.auth.user);
@@ -15,12 +13,6 @@ const Header = (props) => {
   const handleLogout = async () => {
     await logout(dispatch);
   };
-  useEffect(() => {
-    const fetchCart = async () => {
-      await getCart(dispatch);
-    };
-    fetchCart();
-  }, []);
   return (
     <header className="w-full">
       <div className=" flex justify-between items-center h-28">
@@ -119,14 +111,14 @@ const Header = (props) => {
                       >
                         <div className="-info flex tems-center gap-2 w-4/5">
                           <figure className="-img w-11">
-                            <img src={product.productId.urlImages[0]} alt="" />
+                            <img src={product?.productId.urlImages[0]} alt="" />
                           </figure>
                           <span className=" truncate">
-                            {product.productId.title}
+                            {product?.productId.title}
                           </span>
                         </div>
                         <span className=" text-[#B49149]">
-                          {product.productId.price?.toLocaleString("en-US", {
+                          {product?.productId.price?.toLocaleString("en-US", {
                             style: "currency",
                             currency: "VND",
                           })}

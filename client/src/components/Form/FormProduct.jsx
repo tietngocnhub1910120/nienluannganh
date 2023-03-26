@@ -8,10 +8,10 @@ import {
   Input,
   Select,
 } from "@chakra-ui/react";
-import EditorQuill from "./EditorQuill";
+import EditorQuill from "../Editor/EditorQuill";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewProduct } from "../Api/productAPI";
+import { createNewProduct } from "../../Api/productAPI";
 function FormProduct(props) {
   const { isEdit, hide } = props;
   const [isLoading, setIsLoading] = useState(false);

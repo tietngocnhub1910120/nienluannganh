@@ -1,5 +1,3 @@
-import { MdOutlineArrowDropDown } from "react-icons/md";
-
 const Category = (props) => {
   const { filters, setFilters } = props;
   const handleSelectType = (value) => {
@@ -13,7 +11,7 @@ const Category = (props) => {
           onClick={() => {
             handleSelectType("");
           }}
-          className={`py-2 px-1 hover:text-black duration-300 ease-linear  ${
+          className={`cursor-pointer py-2 px-1 hover:text-black duration-300 ease-linear  ${
             filters?.type === "" ? "bg-primary text-white" : ""
           }`}
         >
@@ -23,7 +21,7 @@ const Category = (props) => {
           onClick={() => {
             handleSelectType("Table");
           }}
-          className={`py-2 px-1 hover:text-black duration-300 ease-linear  ${
+          className={`cursor-pointer py-2 px-1 hover:text-black duration-300 ease-linear  ${
             filters?.type === "Table" ? "bg-primary text-white" : ""
           }`}
         >
@@ -33,7 +31,7 @@ const Category = (props) => {
           onClick={() => {
             handleSelectType("Chair");
           }}
-          className={`py-2 px-1 hover:text-black duration-300 ease-linear  ${
+          className={`cursor-pointer py-2 px-1 hover:text-black duration-300 ease-linear  ${
             filters?.type === "Chair" ? "bg-primary text-white" : ""
           }`}
         >

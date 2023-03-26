@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllProduct } from "../Api/productAPI";
 import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../components/ProductItem";
-import Category from "../components/Category";
+import Category from "../components/Products/Category";
 import Header from "../components/Header";
 import renderSavedProduct from "../utils/renderSavedProduct";
 const Products = () => {
@@ -33,7 +33,7 @@ const Products = () => {
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
         <Header activeHeader="products" />
-        <div className="grid grid-cols-4 py-8">
+        <div className="grid grid-cols-4 py-8 gap-5">
           <Category setFilters={setFilters} filters={filters} />
           <div className="col-span-3">
             <div className="flex justify-between items-center">

@@ -1,7 +1,5 @@
-import { MdSearch } from "react-icons/md";
-import avatar from "../assets/avatar.jpg";
 import NavAdmin from "../components/NavAdmin";
-import FormProduct from "../components/FormProduct";
+import FormProduct from "../components/Form/FormProduct";
 import TopPane from "../components/TopPane";
 const AddProduct = () => {
   return (

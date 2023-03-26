@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
 import Header from "../components/Header";
-import ProfileForm from "../components/ProfileForm";
-import ProfileSidebar from "../components/ProfileSidebar";
+import ProfileForm from "../components/Profile/ProfileForm";
+import ProfileSidebar from "../components/Profile/ProfileSidebar";
 import { useDispatch } from "react-redux";
 
 import { getProfile } from "../Api/userAPI";

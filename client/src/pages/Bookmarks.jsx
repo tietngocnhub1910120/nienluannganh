@@ -1,10 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import ProfileSidebar from "../components/ProfileSidebar";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+// Components
+import ProfileSidebar from "../components/Profile/ProfileSidebar";
 import Header from "../components/Header";
 import ProductItem from "../components/ProductItem";
+// Utils
 import renderSavedProduct from "../utils/renderSavedProduct";
+// API
 import { getProfile } from "../Api/userAPI";
 const Bookmarks = () => {
   const user = useSelector((state) => state.auth.user);

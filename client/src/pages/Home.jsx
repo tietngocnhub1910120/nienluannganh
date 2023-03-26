@@ -1,5 +1,5 @@
-import SliderComponent from "../components/Slider";
-import ProductList from "../components/ProductList";
+import SliderComponent from "../components/Home/Slider";
+import ProductList from "../components/Home/ProductList";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useEffect } from "react";
