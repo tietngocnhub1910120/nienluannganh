@@ -6,39 +6,30 @@ class OrderController {
   // Admin
   async createOrder(req, res, next) {
     const { userId } = req.user;
-    const { address, phone } = req.body;
+    const { address, phone, amount, email, username, note } = req.body;
     if (!address) {
       return next(createError(400, "Trường địa chỉ bị bỏ trống!"));
     }
     if (!phone) {
       return next(createError(400, "Trường số điện thoại bị bỏ trống!"));
     }
-    let cod = 50000;
     try {
       const productsCart = await Cart.findOne({ userId }).populate({
         path: "products",
         populate: { path: "productId", select: "-description -colors" },
       });
-      const total = productsCart.products.reduce(
-        (initialValue, currenValue) => {
-          return (
-            initialValue + currenValue.quantity * currenValue.productId.price
-          );
-        },
-        0
-      );
-      if (total >= 5000000) {
-        cod = 0;
-      }
       const orderCode = "GHN" + Math.floor(Math.random() * 9999999);
       const newOrder = new Order({
         orderCode,
         userId,
         products: productsCart.products,
         address,
+        email,
+        username,
+        note,
         phone,
-        amount: cod + total,
-        COD: cod,
+        amount: amount >= 10000000 ? amount : amount + 500000,
+        COD: amount >= 10000000 ? 0 : 500000,
       });
       await newOrder.save();
       res.status(200).json({
@@ -63,7 +54,7 @@ class OrderController {
 
       res.status(200).json({
         success: true,
-        message: "Cập nhật trạng thái đơn hàng thành công!",
+        message: "Đã cập nhật trạng thái!",
         order,
       });
     } catch (error) {

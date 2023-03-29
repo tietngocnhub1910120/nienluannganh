@@ -12,3 +12,12 @@ export const getAllProduct = async (dispatch, params) => {
     showToast("error", error.message);
   }
 };
+export const createOrder = async (dispatch, payload) => {
+  try {
+    const data = await axiosClient.post("/api/order/create", payload);
+    console.log(data);
+    showToast("success", data.message);
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};

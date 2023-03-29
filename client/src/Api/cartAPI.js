@@ -26,8 +26,7 @@ export const addToCart = async (dispatch, productId, payload) => {
 export const removeFromCart = async (dispatch, productId, payload) => {
   try {
     const data = await axiosClient.delete(
-      `/api/cart/${productId}/remove`,
-      payload
+      `/api/cart/${productId}/remove/${payload}`,
     );
     dispatch(saveCartAction(data.cart));
     showToast("success", data.message);

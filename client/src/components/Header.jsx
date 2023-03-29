@@ -6,6 +6,7 @@ import { MdPhone, MdOutlineShoppingBag, MdSearch } from "react-icons/md";
 import logo from "../assets/logo.webp";
 //Utils
 import renderTotalPrice from "../utils/renderTotalPrice";
+import renderQuantityProduct from '../utils/renderQuantityProduct'
 //API
 import { logout } from "../Api/authAPI";
 import { getCart } from "../Api/cartAPI";
@@ -104,27 +105,30 @@ const Header = (props) => {
             <div className=" p-3 border-2 cursor-pointer relative peer  hover:border-[#B49149] duration-200 ease-linear">
               <MdOutlineShoppingBag className="text-4xl" />
               <span className=" text-center text-white w-6 rounded-full bg-[#B49149] absolute top-0 right-0 ">
-                {cart && cart.products?.length}
+                {cart && renderQuantityProduct(cart?.products)}
               </span>
             </div>
             <div className=" z-10 absolute -left-[288px] -translate-y-6 invisible opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">
               <h3 className=" font-bold py-2 border-b-2 pl-3">
                 Giỏ hàng của bạn
               </h3>
-              <ul className=" pt-3">
-                {cart && cart.products ? (
-                  cart.products.map((product) => {
+              <ul className="py-2 h-full max-h-60 overflow-y-auto">
+                {cart && cart?.products ? (
+                  cart?.products.map((product) => {
                     return (
                       <li
                         key={product._id}
                         className=" flex cursor-pointer justify-between px-3 py-2 bg-white duration-200 ease-linear hover:bg-gray-400/25 "
                       >
-                        <div className="-info flex tems-center gap-2 w-4/5">
+                        <div className="-info flex tems-center gap-2 w-2/3">
                           <figure className="-img w-11">
                             <img src={product?.productId.urlImages[0]} alt="" />
                           </figure>
-                          <span className=" truncate">
+                          <span className="truncate">
                             {product?.productId.title}
+                          </span>
+                          <span className="text-[#B49149]">
+                            x{product?.quantity}
                           </span>
                         </div>
                         <span className=" text-[#B49149]">
@@ -144,7 +148,7 @@ const Header = (props) => {
               <div className=" flex justify-between mb-4 mx-3">
                 <span className="font-bold">TỔNG TIỀN:</span>
                 <span className="">
-                  {renderTotalPrice(cart.products)?.toLocaleString("en-US", {
+                  {renderTotalPrice(cart?.products)?.toLocaleString("en-US", {
                     style: "currency",
                     currency: "VND",
                   })}

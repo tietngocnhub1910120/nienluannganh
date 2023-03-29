@@ -17,8 +17,11 @@ const Cart = () => {
   }
 
   useEffect(() => {
-    if (cart.products) {
-      setAmount(renderTotalPrice(cart.products));
+    if (cart?.products) {
+      setAmount(renderTotalPrice(cart?.products));
+    }
+    else {
+      setAmount(0)
     }
   }, [cart]);
   return (
@@ -28,8 +31,8 @@ const Cart = () => {
         <h1 className="font-semibold text-xl mt-8">GIỎ HÀNG CỦA BẠN</h1>
         <div className="mt-8 grid grid-cols-3 gap-4">
           <ul className="col-span-2">
-            {cart && cart.products ? (
-              cart.products.map((product) => {
+            {cart && cart?.products ? (
+              cart?.products.map((product) => {
                 return <CartItem key={product._id} product={product} handleUpdateCart={handleUpdateCart} handleRemoveFromCart={handleRemoveFromCart} />;
               })
             ) : (

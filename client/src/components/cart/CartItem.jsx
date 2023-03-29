@@ -11,8 +11,8 @@ const CartItem = ({ product, handleUpdateCart, handleRemoveFromCart }) => {
   const handleIncrement = (stringValue, numberValue) => {
     handleUpdateCart(product?.productId._id, { quantity: numberValue, color: product.color })
   };
-  const handleRemove = (id, color) => {
-    handleRemoveFromCart(id, { color })
+  const handleRemove = (id, payload) => {
+    handleRemoveFromCart(id, payload)
   }
   return (
     <li className="pb-6 border-b grid grid-cols-6 items-center">

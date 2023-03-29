@@ -35,7 +35,7 @@ class CartController {
           cart,
         });
       } else {
-        const cart = new Cart({
+        let cart = new Cart({
           userId,
           products: [
             {
@@ -45,7 +45,9 @@ class CartController {
             },
           ],
         });
-        await cart.save().populate("userId", "-password -admin")
+        await cart.save()
+
+        cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
           .populate({
             path: "products",
             populate: { path: "productId", select: "-description -colors" },
@@ -63,11 +65,10 @@ class CartController {
     }
   }
   async removeFromCart(req, res, next) {
-    const { productId } = req.params;
-    const { color } = req.body;
+    const { productId, color } = req.params;
     const { userId } = req.user;
     try {
-      const cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
+      let cart = await Cart.findOne({ userId }).populate("userId", "-password -admin")
         .populate({
           path: "products",
           populate: { path: "productId", select: "-description -colors" },
@@ -77,7 +78,7 @@ class CartController {
           product.productId._id.toString() === productId && product.color === color
       );
 
-      cart.products.pop(itemIndex);
+      cart.products = cart.products.filter((product, index) => index !== itemIndex);
       if (cart.products.length === 0) {
         await Cart.deleteOne({ userId });
         return res.status(200).json({
@@ -86,6 +87,7 @@ class CartController {
           cart: [],
         });
       }
+
       await cart.save();
       res.status(200).json({
         success: true,

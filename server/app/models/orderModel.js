@@ -16,8 +16,11 @@ const orderSchema = new Schema(
     ],
     amount: { type: Number, required: true },
     address: { type: String, required: true },
+    email: { type: String, required: true },
+    username: { type: String, required: true },
+    note: { type: String },
     phone: { type: String, required: true },
-    COD: { type: Number, default: 50000 },
+    COD: { type: Number, default: 500000 },
     status: {
       type: String,
       default: "Chờ xác nhận",

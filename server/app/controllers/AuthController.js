@@ -60,15 +60,15 @@ class AuthController {
         username,
       });
       await newUser.save();
-      user = await User.findById(newUser._id);
+      user = await User.findById(newUser._id).select('-password');
       const accessToken = jwt.sign(
-        { userId: newUser._id, isAdmin: newUser.admin },
+        { userId: user._id, isAdmin: user.admin },
         process.env.ACCESS_TOKEN_SECRET
       );
 
       res.json({
         success: true,
-        message: "Đăng ký tài khoản thành công!",
+        message: "Đăng ký thành công!",
         accessToken,
         user,
       });
