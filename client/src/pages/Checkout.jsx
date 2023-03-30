@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FormControl,
@@ -21,6 +21,7 @@ const Checkout = () => {
   const cart = useSelector(state => state.user.cart)
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -75,7 +76,8 @@ const Checkout = () => {
     await removeFromCart(dispatch, productId, payload)
   }
   const handleCreateOrder = async (data) => {
-    await createOrder(dispatch, data)
+    const { success } = await createOrder(dispatch, data)
+    success && navigate('/')
   }
   useEffect(() => {
     const fetchProvinces = async () => {

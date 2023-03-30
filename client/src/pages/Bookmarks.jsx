@@ -20,7 +20,7 @@ const Bookmarks = () => {
       await getProfile(dispatch);
     };
     fetchProfile();
-  }, []);
+  }, [profile]);
   return (
     <div className="w-[80%] mx-auto">
       <main className="container mx-auto">

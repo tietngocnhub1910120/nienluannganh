@@ -3,7 +3,6 @@ const { createError } = require("../utils/err");
 const Cart = require("../models/cartModel");
 const Order = require("../models/orderModel");
 class OrderController {
-  // Admin
   async createOrder(req, res, next) {
     const { userId } = req.user;
     const { address, phone, amount, email, username, note } = req.body;
@@ -28,10 +27,11 @@ class OrderController {
         username,
         note,
         phone,
-        amount: amount >= 10000000 ? amount : amount + 500000,
+        amount: amount,
         COD: amount >= 10000000 ? 0 : 500000,
       });
       await newOrder.save();
+      await Cart.deleteOne({ userId });
       res.status(200).json({
         success: true,
         message: "Tạo đơn hàng thành công!",
@@ -63,7 +63,10 @@ class OrderController {
   }
   async getAllOrder(req, res, next) {
     try {
-      const orders = await Order.find({}).populate("userId", "-password");
+      const orders = await Order.find({}).populate("userId", "-password").populate({
+        path: "products",
+        populate: { path: "productId", select: "-description -colors" },
+      });;
 
       res.status(200).json({
         success: true,
@@ -99,11 +102,14 @@ class OrderController {
       const order = await Order.findOne({ _id: orderId, userId }).populate(
         "userId",
         "-password"
-      );
+      ).populate({
+        path: "products",
+        populate: { path: "productId", select: "-description -colors" },
+      });;
 
       res.status(200).json({
         success: true,
-        message: "Lấy đơn hàng thành công!",
+        message: "Đã lấy thông tin đơn hàng!",
         order,
       });
     } catch (error) {
@@ -111,17 +117,39 @@ class OrderController {
     }
   }
   async getAllOrderPrivate(req, res, next) {
-    const orderId = req.params.orderId;
     const userId = req.user.userId;
+    const filter = req.query.status ? { status: req.query.status } : {}
     try {
-      const order = await Order.find({ _id: orderId, userId }).populate(
+      const orders = await Order.find({ userId }).where(filter).populate(
         "userId",
         "-password"
-      );
+      ).populate({
+        path: "products",
+        populate: { path: "productId", select: "-description -colors" },
+      });
 
       res.status(200).json({
         success: true,
         message: "Lấy danh sách đơn hàng thành công!",
+        orders,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async cancelOrder(req, res, next) {
+    const orderId = req.params.orderId;
+
+    try {
+      const order = await Order.findOneAndUpdate(
+        { _id: orderId },
+        { status: "Đã hủy" },
+        { new: true }
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "Đã cập nhật trạng thái!",
         order,
       });
     } catch (error) {

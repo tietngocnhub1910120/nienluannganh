@@ -7,6 +7,11 @@ Router.put(
   verifyTokenAdmin,
   OrderController.updateStatusOrder
 );
+Router.put(
+  "/:orderId/cancel",
+  verifyToken,
+  OrderController.cancelOrder
+);
 Router.get("/:orderId/private", verifyToken, OrderController.getOrderPrivate);
 Router.get("/private", verifyToken, OrderController.getAllOrderPrivate);
 

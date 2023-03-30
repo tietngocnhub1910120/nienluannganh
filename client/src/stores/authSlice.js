@@ -27,11 +27,10 @@ const authSlice = createSlice({
     unBookmarkAction: (state, actions) => {
       state.user = {
         ...state.user,
-        bookmarks: [
-          ...state.user.bookmarks.filter(
+        bookmarks:
+          state.user.bookmarks.filter(
             (productId) => productId !== actions.payload
           ),
-        ],
       };
     },
   },

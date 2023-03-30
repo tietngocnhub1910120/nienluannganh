@@ -1,11 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
 import { renderStatusOrderHasCon } from "../utils/renderStatusOrder";
+import { useEffect, useState } from "react";
+import { trackingOrder } from "../Api/orderAPI";
 const TrackingOrder = (props) => {
-  const arr = ["Chờ xác nhận", "Đã xác nhận", "Đang giao", "Đã giao", "Đã hủy"];
+  const { orderId } = useParams()
+  const [order, setOrder] = useState(null)
+  const [status, setStatus] = useState(null);
+  useEffect(() => {
+    const fetchOrder = async (orderId) => {
+      const data = await trackingOrder(orderId);
+      setOrder(data.order);
+      setStatus(data.order.status)
+    }
+    fetchOrder(orderId)
 
-  const status = "Đã hủy";
+  }, [orderId])
   return (
     <div className="w-[80%] mx-auto">
       <main className="container mx-auto">
@@ -18,7 +29,7 @@ const TrackingOrder = (props) => {
 
         <div className="flex justify-between">
           <h3 className="font-bold text-base">
-            TRẠNG THÁI ĐƠN HÀNG <span className="text-primary">W0317837</span>
+            TRẠNG THÁI ĐƠN HÀNG <span className="text-primary">{order?.orderCode}</span>
           </h3>
           <span>Thanh toán COD - Tốc độ tiêu chuẩn</span>
         </div>
@@ -100,71 +111,52 @@ const TrackingOrder = (props) => {
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
                 <h4 className="text-black font-bold">THÔNG TIN KHÁCH HÀNG</h4>
                 <div className="h-[1px] w-full bg-black my-2"></div>
-                <p className="mt-2">Họ tên: {"Thuong Duong"}</p>
-                <p className="mt-2">Điện thoại: {"0794290085"}</p>
-                <p className="mt-2">Email: {"duongthuong654@gmail.com"}</p>
-                <p className="mt-2">Địa chỉ: {"421c kv phú mỹ"}</p>
-                <p className="mt-2">Phường/xã: {"Phường Thường Thạnh"}</p>
-                <p className="mt-2">Quận/Huyện: {"Quận Cái Răng"}</p>
-                <p className="mt-2">Thành phố/Tỉnh: {"Cần Thơ"}</p>
+                <p className="mt-2">Họ tên: {order.userId.username}</p>
+                <p className="mt-2">Điện thoại: {order.userId.phone}</p>
+                <p className="mt-2">Email: {order.userId.email}</p>
+                <p className="mt-2">Địa chỉ: {order.userId.address}</p>
               </li>
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
                 <h4 className="text-black font-bold">THÔNG TIN GIAO NHẬN</h4>
                 <div className="h-[1px] w-full bg-black my-2"></div>
-                <p className="mt-2">Họ tên: {"Thuong Duong"}</p>
-                <p className="mt-2">Điện thoại: {"0794290085"}</p>
-                <p className="mt-2">Email: {"duongthuong654@gmail.com"}</p>
-                <p className="mt-2">Địa chỉ: {"421c kv phú mỹ"}</p>
-                <p className="mt-2">Phường/xã: {"Phường Thường Thạnh"}</p>
-                <p className="mt-2">Quận/Huyện: {"Quận Cái Răng"}</p>
-                <p className="mt-2">Thành phố/Tỉnh: {"Cần Thơ"}</p>
+                <p className="mt-2">Họ tên: {order.username}</p>
+                <p className="mt-2">Điện thoại: {order.phone}</p>
+                <p className="mt-2">Email: {order.email}</p>
+                <p className="mt-2">Địa chỉ: {order.address}</p>
               </li>
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
                 <h4 className="text-black font-bold">DANH SÁCH SẢN PHẨM</h4>
                 <div className="h-[1px] w-full bg-black my-2"></div>
                 <ul className="h-52 overflow-y-auto">
-                  <li className="flex gap-4 mt-4">
-                    <figure className="w-44 h-44">
-                      <img src={srcProduct1} alt="" />
-                    </figure>
-                    <div className="flex flex-col">
-                      <h5 className="mb-4 font-semibold">
-                        Bàn sofa thời trang Noguchi Home'furni
-                      </h5>
-                      <p className="font-semibold">
-                        Giá: <span className="font-normal">650.000 VNĐ</span>
-                      </p>
-                      <p className="font-semibold">
-                        Size: <span className="font-normal">M</span>
-                      </p>
-                      <p className="font-semibold">
-                        Số lượng: <span className="font-normal">1</span>
-                      </p>
+                  {order.products.map((product) => {
+                    return (
+                      <li className="flex gap-4 mt-4">
+                        <figure className="w-44 h-44">
+                          <img src={product.productId.urlImages[0]} alt="" />
+                        </figure>
+                        <div className="flex flex-col">
+                          <h5 className="mb-4 font-semibold">
+                            {product.productId.title}
+                          </h5>
+                          <p className="font-semibold">
+                            Giá: <span className="font-normal">{product.productId.price.toLocaleString("en-US", {
+                              style: "currency",
+                              currency: "VND",
+                            })}</span>
+                          </p>
 
-                      <p className="mt-8 font-semibold">650.000 VNĐ</p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4 mt-4">
-                    <figure className="w-44 h-44">
-                      <img src={srcProduct1} alt="" />
-                    </figure>
-                    <div className="flex flex-col">
-                      <h5 className="mb-4 font-semibold">
-                        Bàn sofa thời trang Noguchi Home'furni
-                      </h5>
-                      <p className="font-semibold">
-                        Giá: <span className="font-normal">650.000 VNĐ</span>
-                      </p>
-                      <p className="font-semibold">
-                        Size: <span className="font-normal">M</span>
-                      </p>
-                      <p className="font-semibold">
-                        Số lượng: <span className="font-normal">1</span>
-                      </p>
+                          <p className="font-semibold">
+                            Số lượng: <span className="font-normal">{product.quantity}</span>
+                          </p>
 
-                      <p className="mt-8 font-semibold">650.000 VNĐ</p>
-                    </div>
-                  </li>
+                          <p className="mt-8 font-semibold">{Number(product.quantity * product.productId.price).toLocaleString("en-US", {
+                            style: "currency",
+                            currency: "VND",
+                          })}</p>
+                        </div>
+                      </li>
+                    )
+                  })}
                 </ul>
               </li>
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
@@ -173,21 +165,30 @@ const TrackingOrder = (props) => {
                 <div className="py-6 border-gray-500 border-b-2 border-dashed">
                   <p className="flex justify-between">
                     Trị giá đơn hàng:{" "}
-                    <span className="font-semibold">650.000 VNĐ</span>
+                    <span className="font-semibold">{order.amount.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "VND",
+                    })}</span>
                   </p>
                   <p className="flex justify-between">
                     Giảm giá: <span className="font-semibold">0 VNĐ</span>
                   </p>
                   <p className="flex justify-between">
                     Phí giao hàng:{" "}
-                    <span className="font-semibold">30.000 VNĐ</span>
+                    <span className="font-semibold">{order.COD.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "VND",
+                    })}</span>
                   </p>
                   <p className="flex justify-between">
                     Phí thanh toán: <span className="font-semibold">0 VNĐ</span>
                   </p>
                 </div>
                 <p className="font-semibold flex justify-between mt-4">
-                  Tổng thanh toán: <span>680.000 VNĐ</span>
+                  Tổng thanh toán: <span>{order.amount.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "VND",
+                  })}</span>
                 </p>
               </li>
             </ul>
