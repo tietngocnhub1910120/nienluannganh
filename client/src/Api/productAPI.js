@@ -53,3 +53,14 @@ export const editProduct = async (payload, id, dispatch) => {
     showToast("error", error.message);
   }
 };
+export const searchProducts = async (dispatch, params) => {
+  console.log(params);
+  try {
+    const data = await axiosClient.get("/api/product", {
+      params,
+    });
+    return data.products
+  } catch (error) {
+    showToast("error", error.message);
+  }
+};

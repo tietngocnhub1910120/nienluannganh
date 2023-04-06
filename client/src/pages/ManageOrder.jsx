@@ -1,7 +1,18 @@
 import NavAdmin from "../components/NavAdmin";
-import OrderRow from "../components/Manage/OrderRow";
+import OrderTable from "../components/Manage/OrderTable";
 import TopPane from "../components/TopPane";
+import { useDispatch } from "react-redux";
+import { getAllOrder } from "../Api/orderAPI";
+import { useEffect } from "react";
 const ManageOrder = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchOrderList = async () => {
+      await getAllOrder(dispatch);
+    };
+    fetchOrderList();
+  }, []);
   return (
     <div className="xl:container mx-auto mt-24 shadow-xl">
       <div className="flex">
@@ -9,50 +20,10 @@ const ManageOrder = () => {
           <NavAdmin navActive={"orders"} />
         </div>
         <div className="flex-1">
-          <TopPane />
-          <div className="w-full">
-            <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md mx-2 mt-16">
-              <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
-                      Mã đơn hàng
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
-                      Người đặt hàng
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
-                      Trạng thái đơn hàng
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
-                      Danh sách sản phẩm
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    >
-                      Tổng tiền
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-4 font-medium text-gray-900"
-                    ></th>
-                  </tr>
-                </thead>
-                <OrderRow />
-              </table>
+          <TopPane tab='order' />
+          <div className="w-full h-full">
+            <div className="rounded-lg border border-gray-200 shadow-md mx-2 mt-16 h-full max-h-[600px] overflow-y-auto">
+              {<OrderTable />}
             </div>
           </div>
         </div>

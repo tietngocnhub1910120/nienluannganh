@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 //Library
@@ -10,14 +10,34 @@ import renderQuantityProduct from '../utils/renderQuantityProduct'
 //API
 import { logout } from "../Api/authAPI";
 import { getCart } from "../Api/cartAPI";
+import { searchProducts } from "../Api/productAPI";
 const Header = (props) => {
   const { activeHeader } = props;
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.user.cart);
   const dispatch = useDispatch();
+  const [activeSearch, setActiveSearch] = useState(false)
+  const [searchList, setSearchList] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const timeOutRef = useRef(null)
   const handleLogout = async () => {
     await logout(dispatch);
   };
+  const handleSearching = async (e) => {
+    const value = e.target.value;
+    setSearchTerm(value)
+    clearTimeout(timeOutRef.current);
+
+    timeOutRef.current = setTimeout(async () => {
+      setSearchList(await searchProducts(dispatch, { title: value }))
+    }, 1000)
+
+  }
+  const handleClearSearch = () => {
+    setActiveSearch(false)
+    setSearchList([]);
+    setSearchTerm('');
+  }
   useEffect(() => {
     const fetchCart = async () => {
       await getCart(dispatch);
@@ -26,7 +46,7 @@ const Header = (props) => {
   }, [user]);
   return (
     <header className="w-full">
-      <div className=" flex justify-between items-center h-28">
+      <div className="flex justify-between items-center h-28 gap-20">
         <div className="">
           <Link to="/">
             <figure>
@@ -34,12 +54,35 @@ const Header = (props) => {
             </figure>
           </Link>
         </div>
-
+        <div className="flex-1 relative header__search rounded-sm flex items-center bg-gray-200 duration-150 focus-within:bg-white focus-within:border focus-within:border-black">
+          <input
+            type="text"
+            name="name"
+            id="name"
+            value={searchTerm}
+            className="outline-none w-full block py-3 px-3 text-sm bg-gray-200 placeholder:text-sm placeholder:italic duration-150 focus:bg-white"
+            placeholder="Tìm kiếm..."
+            onChange={handleSearching}
+            onFocus={() => { setActiveSearch(true) }}
+          />
+          <MdSearch className="text-xl text-gray-500 mr-3" />
+          {activeSearch && <div className="absolute top-12 w-full bg-white shadow-xl py-4 rounded-lg overflow-hidden z-10">
+            <ul>
+              {searchList.length > 0 ? searchList.map((item) => {
+                return <Link to={`/products/${item._id}`}>
+                  <li key={item._id} onClick={handleClearSearch} className="p-2 font-semibold hover:bg-gray-200"><span>{item?.title}</span></li>
+                </Link>
+              }) : searchTerm === '' ? <li className="p-2 font-semibold"><span>Gõ vào để tìm kiếm</span></li> :
+                <li className="p-2 font-semibold"><span>Không có sản phẩm tìm kiếm</span></li>
+              }
+            </ul>
+          </div>}
+        </div>
         <div className=" flex items-center gap-2 ">
           <div className=" text-right divide-y-[1px] divide-black">
             <ul className=" flex gap-5 ">
-              <li className=" flex items-center cursor-pointer">
-                <MdPhone /> 0378056713
+              <li className=" flex items-center cursor-pointer" >
+                <MdPhone />  <a href="tel:0378056713">0378056713</a>
               </li>
               {user ? (
                 <>
@@ -195,16 +238,7 @@ const Header = (props) => {
             </li>
           </Link>
         </ul>
-        <div className="relative header__search rounded-sm flex items-center bg-gray-200 duration-150 focus-within:bg-white focus-within:border focus-within:border-black">
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="outline-none block py-2 px-3 text-sm bg-gray-200 placeholder:text-sm placeholder:italic duration-150 focus:bg-white"
-            placeholder="Tìm kiếm..."
-          />
-          <MdSearch className="text-xl text-gray-500 mr-3" />
-        </div>
+
       </div>
     </header>
   );

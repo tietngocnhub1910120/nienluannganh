@@ -11,6 +11,7 @@ const TrackingOrder = (props) => {
   useEffect(() => {
     const fetchOrder = async (orderId) => {
       const data = await trackingOrder(orderId);
+      console.log(data);
       setOrder(data.order);
       setStatus(data.order.status)
     }
@@ -76,32 +77,28 @@ const TrackingOrder = (props) => {
             </ul>
             <div className="grid grid-cols-4 mt-4 gap-2 pb-8 border-b-2 border-dashed border-gray-500">
               <div className="">
-                <p className="text-sm">Vào lúc 21:10 - 12/06/2022</p>
-                <p className="mt-8 text-sm">
+                <p className="mt-4 text-sm">
                   Thời gian xử lý đơn hàng có thể từ 1-2 ngày làm việc. Vui lòng
-                  gọi đến hotline 0963 429 749 (trong giờ hành chính) nếu bạn
+                  gọi đến hotline 0378 056 713 (trong giờ hành chính) nếu bạn
                   muốn thay đổi thông tin đơn hàng trước khi đơn hàng của bạn
                   được CHUYỂN QUA GIAO NHẬN.
                 </p>
               </div>
               <div className="">
-                <p className="text-sm">Vào lúc 18:17 - 14/06/2022</p>
-                <p className="mt-8 text-sm">
+                <p className="mt-4 text-sm">
                   Đơn hàng của bạn đã được đóng gói và chuyển cho đơn vị vận
                   chuyển.
                 </p>
               </div>
               <div className="">
-                <p className="text-sm">Vào lúc 21:23 - 14/06/2022</p>
-                <p className="mt-8 text-sm">
+                <p className="mt-4 text-sm">
                   Thời gian giao hàng tuỳ thuộc vào địa điểm và phương thức giao
                   hàng bạn đã chọn. Hãy tin rắng chúng tôi luôn cố gắng để hàng
                   đến tay bạn sớm nhất!
                 </p>
               </div>
               <div className="">
-                <p className="text-sm">Vào lúc 17:16 - 16/06/2022</p>
-                <p className="mt-8 text-sm">
+                <p className="mt-4 text-sm">
                   Đơn hàng đã được giao thành công ! Chúc bạn có một trải nghiệm
                   thú vị ^^
                 </p>
@@ -111,26 +108,26 @@ const TrackingOrder = (props) => {
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
                 <h4 className="text-black font-bold">THÔNG TIN KHÁCH HÀNG</h4>
                 <div className="h-[1px] w-full bg-black my-2"></div>
-                <p className="mt-2">Họ tên: {order.userId.username}</p>
-                <p className="mt-2">Điện thoại: {order.userId.phone}</p>
-                <p className="mt-2">Email: {order.userId.email}</p>
-                <p className="mt-2">Địa chỉ: {order.userId.address}</p>
+                <p className="mt-2">Họ tên: {order?.userId?.username}</p>
+                <p className="mt-2">Điện thoại: {order?.userId?.phone}</p>
+                <p className="mt-2">Email: {order?.userId?.email}</p>
+                <p className="mt-2">Địa chỉ: {order?.userId?.address}</p>
               </li>
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
                 <h4 className="text-black font-bold">THÔNG TIN GIAO NHẬN</h4>
                 <div className="h-[1px] w-full bg-black my-2"></div>
-                <p className="mt-2">Họ tên: {order.username}</p>
-                <p className="mt-2">Điện thoại: {order.phone}</p>
-                <p className="mt-2">Email: {order.email}</p>
-                <p className="mt-2">Địa chỉ: {order.address}</p>
+                <p className="mt-2">Họ tên: {order?.username}</p>
+                <p className="mt-2">Điện thoại: {order?.phone}</p>
+                <p className="mt-2">Email: {order?.email}</p>
+                <p className="mt-2">Địa chỉ: {order?.address}</p>
               </li>
               <li className="px-5 py-6 text-gray-500 bg-gray-100">
                 <h4 className="text-black font-bold">DANH SÁCH SẢN PHẨM</h4>
                 <div className="h-[1px] w-full bg-black my-2"></div>
                 <ul className="h-52 overflow-y-auto">
-                  {order.products.map((product) => {
+                  {order?.products.map((product) => {
                     return (
-                      <li className="flex gap-4 mt-4">
+                      <li className="flex gap-4 mt-4" key={product._id}>
                         <figure className="w-44 h-44">
                           <img src={product.productId.urlImages[0]} alt="" />
                         </figure>
@@ -165,7 +162,7 @@ const TrackingOrder = (props) => {
                 <div className="py-6 border-gray-500 border-b-2 border-dashed">
                   <p className="flex justify-between">
                     Trị giá đơn hàng:{" "}
-                    <span className="font-semibold">{order.amount.toLocaleString("en-US", {
+                    <span className="font-semibold">{order?.amount.toLocaleString("en-US", {
                       style: "currency",
                       currency: "VND",
                     })}</span>
@@ -175,7 +172,7 @@ const TrackingOrder = (props) => {
                   </p>
                   <p className="flex justify-between">
                     Phí giao hàng:{" "}
-                    <span className="font-semibold">{order.COD.toLocaleString("en-US", {
+                    <span className="font-semibold">{order?.COD.toLocaleString("en-US", {
                       style: "currency",
                       currency: "VND",
                     })}</span>
@@ -185,7 +182,7 @@ const TrackingOrder = (props) => {
                   </p>
                 </div>
                 <p className="font-semibold flex justify-between mt-4">
-                  Tổng thanh toán: <span>{order.amount.toLocaleString("en-US", {
+                  Tổng thanh toán: <span>{order?.amount.toLocaleString("en-US", {
                     style: "currency",
                     currency: "VND",
                   })}</span>

@@ -43,8 +43,8 @@ class OrderController {
   }
   async updateStatusOrder(req, res, next) {
     const orderId = req.params.orderId;
-    const newStatus = req.body.status;
-
+    const newStatus = req.body.newStatus;
+    console.log(newStatus);
     try {
       const order = await Order.findOneAndUpdate(
         { _id: orderId },
@@ -62,8 +62,9 @@ class OrderController {
     }
   }
   async getAllOrder(req, res, next) {
+    let email = req.query.email || "";
     try {
-      const orders = await Order.find({}).populate("userId", "-password").populate({
+      const orders = await Order.find({ email: new RegExp(email, "i") }).populate("userId", "-password").populate({
         path: "products",
         populate: { path: "productId", select: "-description -colors" },
       });;
@@ -83,7 +84,10 @@ class OrderController {
       const order = await Order.findOne({ _id: orderId }).populate(
         "userId",
         "-password"
-      );
+      ).populate({
+        path: "products",
+        populate: { path: "productId", select: "-description -colors" },
+      });
 
       res.status(200).json({
         success: true,
@@ -156,6 +160,7 @@ class OrderController {
       next(error);
     }
   }
+
 }
 
 module.exports = new OrderController();

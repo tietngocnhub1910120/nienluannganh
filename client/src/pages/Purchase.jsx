@@ -65,6 +65,7 @@ const Purchase = () => {
             <ul className="mt-8 max-h-screen overflow-y-auto">
               {orders && orders.length > 0 ? orders.map(order => {
                 return <li key={order._id} className="px-8 py-4 bg-white drop-shadow-xl mb-8">
+                  <p className="font-bold">Mã đơn hàng: {order.orderCode}</p>
                   <span>{renderStatusOrder(order.status)}</span>
                   {order.products.map(product => {
                     return <div key={product.productId.sku} className="py-5 border-t border-b flex">
@@ -118,7 +119,7 @@ const Purchase = () => {
                     />
                   </div>
                 </li>
-              }) : <p>Chưa có sản phẩm nào.</p>}
+              }) : <p>Chưa có đơn hàng nào <Link className="text-blue-400" to={'/products'}>Mua hàng nào</Link>.</p>}
             </ul>
           </div>
         </section>

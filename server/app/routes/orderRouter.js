@@ -17,7 +17,7 @@ Router.get("/private", verifyToken, OrderController.getAllOrderPrivate);
 
 Router.post("/create", verifyToken, OrderController.createOrder);
 
-Router.get("/:orderId", verifyTokenAdmin, OrderController.getOrder);
+Router.get("/:orderId", verifyToken, OrderController.getOrder);
 Router.get("/", verifyTokenAdmin, OrderController.getAllOrder);
 
 module.exports = Router;

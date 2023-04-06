@@ -21,7 +21,7 @@ const ManageProduct = () => {
           <NavAdmin navActive={"products"} />
         </div>
         <div className="flex-1 h-full">
-          <TopPane />
+          <TopPane tab='products' />
 
           <div className="w-full h-full">
             <div className="rounded-lg border border-gray-200 shadow-md mx-2 mt-16 h-full max-h-[600px] overflow-y-auto">
