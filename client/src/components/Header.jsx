@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import regeneratorRuntime from "regenerator-runtime";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 //Library
-import { MdPhone, MdOutlineShoppingBag, MdSearch } from "react-icons/md";
+import SpeechRecognition, {
+  useSpeechRecognition
+} from "react-speech-recognition";
+import { MdPhone, MdOutlineShoppingBag, MdSearch, MdSettingsVoice } from "react-icons/md";
 import logo from "../assets/logo.webp";
 //Utils
 import renderTotalPrice from "../utils/renderTotalPrice";
@@ -16,6 +20,13 @@ const Header = (props) => {
   const user = useSelector((state) => state.auth.user);
   const cart = useSelector((state) => state.user.cart);
   const dispatch = useDispatch();
+  const { transcript, resetTranscript } = useSpeechRecognition({
+    continuous: true
+  });
+
+  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    return null;
+  }
   const [activeSearch, setActiveSearch] = useState(false)
   const [searchList, setSearchList] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
@@ -33,6 +44,14 @@ const Header = (props) => {
     }, 1000)
 
   }
+  const handleVoiceSearching = async (value) => {
+    setSearchTerm(value)
+    clearTimeout(timeOutRef.current);
+
+    timeOutRef.current = setTimeout(async () => {
+      setSearchList(await searchProducts(dispatch, { title: value }))
+    }, 1000)
+  }
   const handleClearSearch = () => {
     setActiveSearch(false)
     setSearchList([]);
@@ -44,6 +63,12 @@ const Header = (props) => {
     };
     user && fetchCart();
   }, [user]);
+  useEffect(() => {
+    if (transcript) {
+      setActiveSearch(true)
+      handleVoiceSearching(transcript)
+    }
+  }, [transcript])
   return (
     <header className="w-full">
       <div
@@ -58,6 +83,7 @@ const Header = (props) => {
         <div
           className="flex-1 relative header__search rounded-sm flex items-center bg-gray-200 duration-150 focus-within:bg-white focus-within:border focus-within:border-black">
           <input
+            autoCapitalize="on"
             type="text"
             name="name"
             id="name"
@@ -67,12 +93,14 @@ const Header = (props) => {
             onChange={handleSearching}
             onFocus={() => { setActiveSearch(true) }}
           />
-          <MdSearch className="text-xl text-gray-500 mr-3" />
+          <button className="text-xl bg-transparent mr-3" onClick={SpeechRecognition.startListening}>
+            <MdSettingsVoice />
+          </button>
           {activeSearch && <div className="absolute top-12 w-full bg-white shadow-xl py-4 rounded-lg overflow-hidden z-10">
             <ul>
               {searchList.length > 0 ? searchList.map((item) => {
-                return <Link to={`/products/${item._id}`}>
-                  <li key={item._id} onClick={handleClearSearch} className="p-2 font-semibold hover:bg-gray-200"><span>{item?.title}</span></li>
+                return <Link to={`/products/${item._id}`} key={item._id}>
+                  <li onClick={handleClearSearch} className="p-2 font-semibold hover:bg-gray-200"><span>{item?.title}</span></li>
                 </Link>
               }) : searchTerm === '' ? <li className="p-2 font-semibold"><span>Gõ vào để tìm kiếm</span></li> :
                 <li className="p-2 font-semibold"><span>Không có sản phẩm tìm kiếm</span></li>
