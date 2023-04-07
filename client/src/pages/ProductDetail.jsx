@@ -8,18 +8,18 @@ import {
   NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { MdShoppingCart, MdDone, MdMoreHoriz } from "react-icons/md";
-import avatar from "../assets/profile.jpg";
+import { MdShoppingCart, MdDone } from "react-icons/md";
 import ProductItem from "../components/ProductItem";
 import CommentForm from "../components/ProductDetail/CommentForm";
 import Header from "../components/Header";
 import { getProduct } from "../Api/productAPI";
 import { addToCart } from "../Api/cartAPI";
+import { getReviews } from "../Api/reviewAPI";
+import Comment from "../components/ProductDetail/Comment";
 const ProductDetail = () => {
   let { productId } = useParams();
-  const { product } = useSelector((state) => state.product);
+  const { product, reviews } = useSelector((state) => state.product);
   const dispatch = useDispatch();
-  const [option, setOption] = useState(false);
   const [imageActive, setImageActive] = useState(null);
   const [infoProduct, setInfoProduct] = useState({
     color: "",
@@ -32,14 +32,17 @@ const ProductDetail = () => {
     setInfoProduct({ ...infoProduct, quantity: number });
   };
   const handleAddCart = async (productId) => {
-    console.log(productId, infoProduct);
     await addToCart(dispatch, productId, infoProduct);
   };
   useEffect(() => {
     const fetchProduct = async (id) => {
       await getProduct(id, dispatch);
     };
+    const fetchProductReview = async (id) => {
+      await getReviews(dispatch, id);
+    };
     fetchProduct(productId);
+    fetchProductReview(productId)
   }, [productId]);
   useEffect(() => {
     setImageActive(() => {
@@ -57,7 +60,7 @@ const ProductDetail = () => {
       }
     });
   }, [product]);
-  console.log(infoProduct);
+
   return (
     <div className="w-[80%] mx-auto">
       <div className="container mx-auto">
@@ -72,22 +75,21 @@ const ProductDetail = () => {
                 <div className="flex gap-4">
                   {product.urlImages && product.urlImages.length > 0
                     ? product.urlImages.map((imageSrc, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className={`w-14 slide-img border hover:border-primary ${
-                              imageActive === imageSrc ? "active" : ""
+                      return (
+                        <div
+                          key={index}
+                          className={`w-14 slide-img border hover:border-primary ${imageActive === imageSrc ? "active" : ""
                             }`}
-                            onClick={() => {
-                              setImageActive(imageSrc);
-                            }}
-                          >
-                            <figure>
-                              <img src={imageSrc} alt="" />
-                            </figure>
-                          </div>
-                        );
-                      })
+                          onClick={() => {
+                            setImageActive(imageSrc);
+                          }}
+                        >
+                          <figure>
+                            <img src={imageSrc} alt="" />
+                          </figure>
+                        </div>
+                      );
+                    })
                     : null}
                 </div>
               </div>
@@ -116,12 +118,12 @@ const ProductDetail = () => {
                   >
                     {product && product?.colors?.length
                       ? product?.colors?.map((color, index) => {
-                          return (
-                            <option key={`c${index}`} value={color}>
-                              {color}
-                            </option>
-                          );
-                        })
+                        return (
+                          <option key={`c${index}`} value={color}>
+                            {color}
+                          </option>
+                        );
+                      })
                       : null}
                   </select>
                 </div>
@@ -180,45 +182,18 @@ const ProductDetail = () => {
             </section>
             <section className="mt-11">
               <h2 className="font-semibold">BÌNH LUẬN</h2>
+
               <div className="h-[1px] w-full bg-black my-2"></div>
+              <p className="font-semibold my-4">{reviews && reviews.length} Đánh giá</p>
+
               <CommentForm />
-              <ul className="mx-8 mt-8">
-                <li className="mt-4 p-4 border-b">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <figure className="w-8 h-8 rounded-full overflow-hidden">
-                        <img src={avatar} alt="avatar" />
-                      </figure>
-                      <span className="text-sm text-gray-500 font-medium">
-                        Michael Gough
-                      </span>
-                      <span className="text-sm text-gray-500 font-medium">
-                        Feb. 8, 2022
-                      </span>
-                    </div>
-                    <span className="relative p-1 rounded-md cursor-pointer hover:bg-gray-200">
-                      <MdMoreHoriz
-                        className="text-2xl text-gray-400"
-                        onClick={() => {
-                          setOption(!option);
-                        }}
-                      />
-                      {option ? (
-                        <ul className="absolute top-10 left-0 bg-white shadow-md ">
-                          <li className="p-2">Edit</li>
-                          <li className="p-2">Remove</li>
-                        </ul>
-                      ) : null}
-                    </span>
-                  </div>
-                  <p className="mt-4 text-gray-500 text-justify">
-                    Very straight-to-point article. Really worth time reading.
-                    Thank you! But tools are just the instruments for the UX
-                    designers. The knowledge of the design tools are as
-                    important as the creation of the design strategy.
-                  </p>
-                </li>
-              </ul>
+              {reviews && reviews.length > 0 ? <ul className="mx-8 mt-8">
+                {reviews.map(review => {
+                  return <Comment key={review._id} review={review} />
+                })}
+
+              </ul> : <p className="mt-4 text-center">Chưa có đánh giá nào......</p>}
+
             </section>
             <section className="mt-11">
               <h4 className="font-medium">SẢN PHẨM KHÁC</h4>

@@ -6,11 +6,11 @@ class ReviewController {
   async editReview(req, res, next) {
     const reviewId = req.params.reviewId;
     const userId = req.user.userId;
-    const { content, start } = req.body;
+    const { content, startNumber } = req.body;
     try {
       let updatedReview = {
         content,
-        start,
+        start: startNumber,
       };
       updatedReview = await Review.findOneAndUpdate(
         { _id: reviewId, userId },
@@ -20,7 +20,7 @@ class ReviewController {
 
       res.status(200).json({
         success: true,
-        message: "Đã chỉnh sửa đánh giá thành công!",
+        message: "Đã chỉnh sửa đánh giá!",
         updatedReview,
       });
     } catch (error) {
@@ -46,7 +46,7 @@ class ReviewController {
   async createReview(req, res, next) {
     const productId = req.params.productId;
     const userId = req.user.userId;
-    const { content, start } = req.body;
+    const { content, startNumber } = req.body;
 
     if (!content) {
       return next(createError(400, "Trường nội dung bị bỏ trống!"));
@@ -56,15 +56,15 @@ class ReviewController {
         productId,
         userId,
         content,
-        start: start || 5,
+        start: startNumber || 5,
       });
 
       await newReview.save();
-
+      const review = await Review.findById(newReview._id).populate('userId', '-password')
       res.status(200).json({
         success: true,
         message: "Đã đánh giá thành công!",
-        newReview,
+        review,
       });
     } catch (error) {
       next(error);

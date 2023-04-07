@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api/auth", require("./app/routes/authRouter"));
 app.use("/api/user", require("./app/routes/userRouter"));
 app.use("/api/product", require("./app/routes/productRouter"));
+app.use("/api/review", require("./app/routes/reviewRouter"));
 app.use("/api/cart", require("./app/routes/cartRouter"));
 app.use("/api/order", require("./app/routes/orderRouter"));
 app.all("*", (req, res, next) => {

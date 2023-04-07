@@ -4,7 +4,7 @@ function VerifyModal(props) {
   const { title, hide, handleVerify, selectedId } = props;
   return (
     <div>
-      <p className="font-bold">{title + selectedId}</p>
+      <p className="font-bold">{title}</p>
       <div className="mt-4">
         <Button
           onClick={() => {

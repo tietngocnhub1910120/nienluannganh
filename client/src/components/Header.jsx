@@ -46,7 +46,8 @@ const Header = (props) => {
   }, [user]);
   return (
     <header className="w-full">
-      <div className="flex justify-between items-center h-28 gap-20">
+      <div
+        className="flex justify-between items-center h-28 gap-20">
         <div className="">
           <Link to="/">
             <figure>
@@ -54,7 +55,8 @@ const Header = (props) => {
             </figure>
           </Link>
         </div>
-        <div className="flex-1 relative header__search rounded-sm flex items-center bg-gray-200 duration-150 focus-within:bg-white focus-within:border focus-within:border-black">
+        <div
+          className="flex-1 relative header__search rounded-sm flex items-center bg-gray-200 duration-150 focus-within:bg-white focus-within:border focus-within:border-black">
           <input
             type="text"
             name="name"
