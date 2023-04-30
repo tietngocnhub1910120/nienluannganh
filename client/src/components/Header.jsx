@@ -127,24 +127,23 @@ const Header = (props) => {
                     <span className="text-sm cursor-pointer font-light hover:text-black/70">
                       {user.email}
                     </span>
-                    <ul className="absolute w-[160px] top-8 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
-                      <Link to={"/user/profile"}>
-                        <li className="mt-3 ml-3 hover:text-white/70">
-                          <span>Tài khoản của tôi</span>
-                        </li>
-                      </Link>
-                      <Link to={"/user/purchase"}>
-                        <li className="mt-3 ml-3 hover:text-white/70">
-                          <span>Đơn mua</span>
-                        </li>
-                      </Link>
-                      {user.admin ? (
-                        <Link to={"/manage/product"}>
+                    <ul className="absolute w-[160px] top-10 right-0 duration-300 opacity-0 invisible group-hover:visible group-hover:opacity-100 text-left bg-primary  py-2 z-10 text-white">
+                      {!user.admin ? <>
+                        <Link to={"/user/profile"}>
                           <li className="mt-3 ml-3 hover:text-white/70">
-                            <span>Quản lý sản phẩm</span>
+                            <span>Tài khoản của tôi</span>
                           </li>
                         </Link>
-                      ) : null}
+                        <Link to={"/user/purchase"}>
+                          <li className="mt-3 ml-3 hover:text-white/70">
+                            <span>Đơn mua</span>
+                          </li>
+                        </Link>
+                      </> : <Link to={"/manage/product"}>
+                        <li className="mt-3 ml-3 hover:text-white/70">
+                          <span>Quản lý sản phẩm</span>
+                        </li>
+                      </Link>}
                       <li
                         onClick={handleLogout}
                         className="mt-3 ml-3 hover:text-white/70"
@@ -171,7 +170,7 @@ const Header = (props) => {
             </ul>
             <p className="text-sm">
               Miễn phí vận chuyển
-              <span className=" text-[#B49149]"> ĐƠN HÀNG TRÊN 500K</span>
+              <span className=" text-[#B49149]"> ĐƠN HÀNG TRÊN 5 TRIỆU</span>
             </p>
           </div>
           <div className=" relative">

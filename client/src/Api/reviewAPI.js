@@ -39,3 +39,11 @@ export const editReview = async (dispatch, payload, reviewId) => {
         showToast('error', error.message);
     }
 }
+export const getAllReview = async (dispatch,) => {
+    try {
+        const data = await axiosClient.get(`/api/review/`);
+        dispatch(getReviewsAction(data.reviews))
+    } catch (error) {
+        showToast('error', error.message);
+    }
+}

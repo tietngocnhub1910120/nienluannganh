@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { getCart } from "../Api/cartAPI";
 const SignIn = () => {
   const user = useSelector(state => state.auth.user)
   const dispatch = useDispatch();
@@ -37,14 +36,9 @@ const SignIn = () => {
 
   const handleSignIn = async (values) => {
     const { user } = await login(values, dispatch);
-    user && user.admin ? navigate("/manage") : navigate("/");
+    user.admin ? navigate("/manage") : navigate("/");
   };
-  useEffect(() => {
-    const fetchCart = async () => {
-      await getCart(dispatch);
-    };
-    user && fetchCart();
-  }, [user]);
+
   return (
     <>
       <div className="w-[80%] mx-auto">

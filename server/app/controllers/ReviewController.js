@@ -87,6 +87,22 @@ class ReviewController {
       next(error);
     }
   }
+  async getAllReview(req, res, next) {
+    try {
+      const reviews = await Review.find().populate(
+        "userId",
+        "-password"
+      ).populate('productId');
+
+      res.status(200).json({
+        success: true,
+        message: "Lấy danh sách đánh giá thành công!",
+        reviews,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new ReviewController();

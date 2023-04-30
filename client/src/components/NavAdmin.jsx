@@ -5,6 +5,7 @@ import {
   MdImage,
   MdLogout,
   MdAdd,
+  MdComment
 } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { logout } from "../Api/authAPI";
@@ -53,6 +54,17 @@ const NavAdmin = (props) => {
           >
             <MdImage className="text-3xl ml-4" />
             <span className="text-xl font-medium">Quản lý Banner</span>
+          </li>
+        </Link>
+        <Link to={"/manage/review"}>
+          <li
+            className={
+              (props.navActive === "review" ? "bg-gray-300" : "") +
+              " flex items-center gap-5  duration-200 cursor-pointer py-4 hover:bg-primary"
+            }
+          >
+            <MdComment className="text-3xl ml-4" />
+            <span className="text-xl font-medium">Quản lý đánh giá</span>
           </li>
         </Link>
         <Link to={"/manage/product/add"}>

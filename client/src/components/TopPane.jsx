@@ -32,7 +32,7 @@ const TopPane = (props) => {
   }
   return (
     <div className="flex justify-between p-2">
-      {tab && <div className="relative flex items-center  px-4 py-3 gap-2 rounded  w-[320px] border border-primary">
+      {tab && tab !== 'review' && <div className="relative flex items-center  px-4 py-3 gap-2 rounded  w-[320px] border border-primary">
         <MdSearch className="text-2xl text-gray-500" />
         <input
           value={searchTerm}

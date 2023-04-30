@@ -13,6 +13,7 @@ import SignIn from "./pages/SignIn";
 import Profile from "./pages/Profile";
 import Purchase from "./pages/Purchase";
 import ManageOrder from "./pages/ManageOrder";
+import ManageReview from "./pages/ManageReview";
 import ManageProduct from "./pages/ManageProduct";
 import AddProduct from "./pages/AddProduct";
 import RequireAuth from "./utils/RequireAuth";
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/manage" element={<Home />}></Route>
             <Route path="/manage/order" element={<ManageOrder />}></Route>
             <Route path="/manage/product" element={<ManageProduct />}></Route>
+            <Route path="/manage/review" element={<ManageReview />}></Route>
             <Route path="/manage/product/add" element={<AddProduct />}></Route>
           </Route>
           <Route path="/unauthorized" element={<UnAuthorized />}></Route>

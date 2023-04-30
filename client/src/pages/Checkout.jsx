@@ -186,7 +186,7 @@ const Checkout = () => {
                 <p>Không có sản phẩm</p>
               )}
             </ul>
-            <div className="flex justify-between gap-3 mt-6">
+            {/* <div className="flex justify-between gap-3 mt-6">
               <input
                 className="py-3 px-2 w-2/3 outline-[#b49149] "
                 type="text"
@@ -196,7 +196,7 @@ const Checkout = () => {
               <button className="w-1/3 py-3 px-6 bg-gray-800 text-white rounded-md cursor-pointer duration-300 ease-linear hover:bg-primary">
                 Sử dụng
               </button>
-            </div>
+            </div> */}
             <div className="h-[1px] w-full bg-gray-500 my-8"></div>
             <p className="flex justify-between items-center">
               Phí vận chuyển
