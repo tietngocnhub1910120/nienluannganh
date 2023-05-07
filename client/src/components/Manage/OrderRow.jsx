@@ -45,7 +45,7 @@ function OrderRow(props) {
                             className="cursor-pointer"
                         />
                     </Link>
-                    {order.status !== 'Đã hủy' && <EditIcon
+                    {order.status !== 'Đã hủy' && order.status !== 'Đã giao' && <EditIcon
                         boxSize={5}
                         color={'green.400'}
                         onClick={onOpenEdit}

@@ -37,6 +37,7 @@ const ProductTable = () => {
   const handleChooseProduct = async (id) => {
     await getProduct(id, dispatch);
   };
+  console.log(products);
   return (
     <>
       <TableContainer>

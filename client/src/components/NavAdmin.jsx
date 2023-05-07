@@ -45,17 +45,6 @@ const NavAdmin = (props) => {
             <span className="text-xl font-medium">Quản lý Đơn hàng</span>
           </li>
         </Link>
-        <Link to={"/manage/banner"}>
-          <li
-            className={
-              (props.navActive === "banners" ? "bg-gray-300" : "") +
-              " flex items-center gap-5  duration-200 cursor-pointer py-4 hover:bg-primary"
-            }
-          >
-            <MdImage className="text-3xl ml-4" />
-            <span className="text-xl font-medium">Quản lý Banner</span>
-          </li>
-        </Link>
         <Link to={"/manage/review"}>
           <li
             className={

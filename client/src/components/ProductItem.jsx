@@ -26,36 +26,31 @@ const ProductItem = (props) => {
       <div className="flex">
         {data?.urlImages
           ? data?.urlImages.map((url, index) => {
-              const ratio = (1 / 3) * 100;
-              if (index < 2) {
-                return (
-                  <img
-                    key={index}
-                    src={url}
-                    alt=""
-                    className={`-ml-[${ratio}%] h-[380px] object-cover ease-linear duration-300 group-hover:-ml-[50%]`}
-                    onError={(e) => {
-                      e.target.src = errorImage;
-                    }}
-                  />
-                );
-              }
-            })
+            const ratio = (1 / 3) * 100;
+            if (index < 2) {
+              return (
+                <img
+                  key={index}
+                  src={url}
+                  alt=""
+                  className={`-ml-[${ratio}%] h-[380px] object-cover ease-linear duration-300 group-hover:-ml-[50%]`}
+                  onError={(e) => {
+                    e.target.src = errorImage;
+                  }}
+                />
+              );
+            }
+          })
           : null}
       </div>
-      <div className="flex gap-2 absolute top-2/3 ease-linear duration-300 left-full group-hover:left-1/3">
-        <Link to={`/products/${data?._id}`}>
-          <button className="text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white">
-            <MdAddShoppingCart />
-          </button>
-        </Link>
+
+      <div className="flex justify-center gap-2 absolute top-2/3 ease-linear duration-300 left-full group-hover:left-[40%]">
         <button
           onClick={() => {
             handleSaveProduct(data?._id);
           }}
-          className={`text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white ${
-            activeBookmark && "bg-primary text-white"
-          }`}
+          className={`text-lg p-1 border ease-linear duration-300 origin-center border-rgb(0,0,0,0.25) hover:bg-primary hover:text-white ${activeBookmark && "bg-primary text-white"
+            }`}
         >
           <MdBookmark />
         </button>
@@ -69,7 +64,7 @@ const ProductItem = (props) => {
         {data?.title}
       </span>
       <span className="text-red-400">
-        {data?.price.toLocaleString("en-US", {
+        {data?.price?.toLocaleString("en-US", {
           style: "currency",
           currency: "VND",
         })}

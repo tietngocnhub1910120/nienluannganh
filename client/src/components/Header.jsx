@@ -15,6 +15,7 @@ import renderQuantityProduct from '../utils/renderQuantityProduct'
 import { logout } from "../Api/authAPI";
 import { getCart } from "../Api/cartAPI";
 import { searchProducts } from "../Api/productAPI";
+import { setInitialCart } from "../stores/userSlice";
 const Header = (props) => {
   const { activeHeader } = props;
   const user = useSelector((state) => state.auth.user);
@@ -32,6 +33,7 @@ const Header = (props) => {
   const [searchTerm, setSearchTerm] = useState('')
   const timeOutRef = useRef(null)
   const handleLogout = async () => {
+    await dispatch(setInitialCart())
     await logout(dispatch);
   };
   const handleSearching = async (e) => {
@@ -69,6 +71,7 @@ const Header = (props) => {
       handleVoiceSearching(transcript)
     }
   }, [transcript])
+
   return (
     <header className="w-full">
       <div
@@ -93,7 +96,7 @@ const Header = (props) => {
             onChange={handleSearching}
             onFocus={() => { setActiveSearch(true) }}
           />
-          <button className="text-xl bg-transparent mr-3" onClick={SpeechRecognition.startListening}>
+          <button className="text-xl bg-transparent mr-3" onClick={SpeechRecognition.startListening} onDoubleClick={SpeechRecognition.stopListening}>
             <MdSettingsVoice />
           </button>
           {activeSearch && <div className="absolute top-12 w-full bg-white shadow-xl py-4 rounded-lg overflow-hidden z-10">
@@ -177,7 +180,7 @@ const Header = (props) => {
             <div className=" p-3 border-2 cursor-pointer relative peer  hover:border-[#B49149] duration-200 ease-linear">
               <MdOutlineShoppingBag className="text-4xl" />
               <span className=" text-center text-white w-6 rounded-full bg-[#B49149] absolute top-0 right-0 ">
-                {cart && renderQuantityProduct(cart?.products)}
+                {cart && cart?.products ? renderQuantityProduct(cart?.products) : null}
               </span>
             </div>
             <div className=" z-10 absolute -left-[288px] -translate-y-6 invisible opacity-0 duration-200 ease-in-out w-[350px] drop-shadow-[0_3px_3px_rgb(0,0,0,0.25)] rounded-sm bg-white peer-hover:translate-y-0 peer-hover:opacity-100 peer-hover:visible hover:opacity-100 hover:translate-y-0 hover:visible">

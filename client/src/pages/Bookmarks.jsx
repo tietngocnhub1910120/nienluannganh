@@ -30,7 +30,7 @@ const Bookmarks = () => {
           <div className="col-span-4 ">
             <div className="grid grid-cols-4 gap-5">
               {profile && profile?.bookmarks?.length > 0 ? (
-                profile.bookmarks.map((product) => {
+                profile?.bookmarks.map((product) => {
                   return (
                     <ProductItem
                       data={product}

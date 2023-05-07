@@ -48,7 +48,7 @@ function Comment(props) {
                         {moment(review.createdAt).fromNow()}
                     </span>
                 </div>
-                {user._id === review.userId._id && <span className="relative p-1 rounded-md cursor-pointer hover:bg-gray-200">
+                {user?._id === review.userId?._id && <span className="relative p-1 rounded-md cursor-pointer hover:bg-gray-200">
                     <MdMoreHoriz
                         className="text-2xl text-gray-400"
                         onClick={() => {
@@ -59,10 +59,10 @@ function Comment(props) {
                         <ul className="absolute top-10 left-0 bg-white shadow-md ">
                             <li className="p-2" onClick={() => {
                                 setIsEdit(true)
-                            }}>Edit
+                            }}>Sửa
 
                             </li>
-                            <li className="p-2" onClick={onOpen}>Remove
+                            <li className="p-2" onClick={onOpen}>Xóa
                                 <InstanceModal
                                     show={isOpen}
                                     hide={onClose}

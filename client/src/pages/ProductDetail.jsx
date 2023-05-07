@@ -195,15 +195,7 @@ const ProductDetail = () => {
               </ul> : <p className="mt-4 text-center">Chưa có đánh giá nào......</p>}
 
             </section>
-            <section className="mt-11">
-              <h4 className="font-medium">SẢN PHẨM KHÁC</h4>
-              <div className="h-[1px] w-full bg-black my-2"></div>
-              <ul className="grid grid-cols-4">
-                <li>
-                  <ProductItem />
-                </li>
-              </ul>
-            </section>
+
           </div>
         </section>
       </div>

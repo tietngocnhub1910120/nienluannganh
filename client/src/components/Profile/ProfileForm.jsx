@@ -5,6 +5,7 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
+  Button,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ const ProfileForm = () => {
   const dispatch = useDispatch();
   const [previewAvatar, setPreviewAvatar] = useState("");
   const [avatar, setAvatar] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {
     values,
     errors,
@@ -50,7 +52,10 @@ const ProfileForm = () => {
   });
 
   const handleUpdateProfile = async (values) => {
+    setLoading(true)
     await updateProfile(values, dispatch);
+    setLoading(false)
+
   };
   const handleAvatar = (e) => {
     if (e.target.files) {
@@ -116,7 +121,7 @@ const ProfileForm = () => {
         </FormControl>
         <FormControl className="mt-8" isInvalid={errors.phone && touched.phone}>
           <div className="flex items-center">
-            <FormLabel className="w-1/6">số điện thoại</FormLabel>
+            <FormLabel className="w-1/6">Số điện thoại</FormLabel>
             <Input
               className="w-5/6"
               placeholder="nhập số điện thoại"
@@ -149,12 +154,13 @@ const ProfileForm = () => {
             <FormErrorMessage>{errors.address}</FormErrorMessage>
           )}
         </FormControl>
-        <button
+        <Button
+          isLoading={loading}
           type="submit"
-          className="mt-8 px-4 py-3 bg-primary rounded text-white font-semibold hover:bg-hover"
+          colorScheme='yellow'
         >
           Lưu
-        </button>
+        </Button>
       </form>
       <div className="col-span-1">
         <div className="flex flex-col items-center">

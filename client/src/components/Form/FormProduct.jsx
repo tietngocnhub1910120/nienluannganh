@@ -76,9 +76,8 @@ function FormProduct(props) {
       setImages(e.target.files);
     }
   };
-  const renderOption = (option) => {
-    return ["Chair", "Table"].filter((op) => op !== option);
-  };
+  const options = ["Chair", "Table"]
+
   useEffect(() => {
     if (isEdit) {
       setFieldValue("title", product.title);
@@ -147,17 +146,18 @@ function FormProduct(props) {
         <FormControl className="mt-2" isInvalid={errors.type && touched.type}>
           <FormLabel>Loại sản phẩm</FormLabel>
           <Select
-            placeholder={values.type || "Loại sản phẩm"}
+            placeholder={"Loại sản phẩm"}
             name="type"
-            defaultValue={values.type || ""}
+            value={values.type}
             onChange={handleChange}
             onBlur={handleBlur}
           >
-            {renderOption(values.type || "").map((op, index) => {
+            {options.map((op, index) => {
               return (
                 <option key={index} value={op}>
-                  {op}
+                  {op === 'Table' ? 'Bàn' : 'Ghế'}
                 </option>
+
               );
             })}
           </Select>

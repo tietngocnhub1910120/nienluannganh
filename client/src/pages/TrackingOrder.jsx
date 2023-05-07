@@ -1,6 +1,5 @@
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header";
-import srcProduct1 from "../assets/upload_1aa6f23a22d74fa88509f30ff89740b1_large.webp";
 import { renderStatusOrderHasCon } from "../utils/renderStatusOrder";
 import { useEffect, useState } from "react";
 import { trackingOrder } from "../Api/orderAPI";
@@ -8,6 +7,7 @@ const TrackingOrder = (props) => {
   const { orderId } = useParams()
   const [order, setOrder] = useState(null)
   const [status, setStatus] = useState(null);
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchOrder = async (orderId) => {
       const data = await trackingOrder(orderId);
@@ -192,12 +192,12 @@ const TrackingOrder = (props) => {
           </>
         )}
 
-        <div className="flex justify-end mt-8">
-          <Link to={"/"}>
-            <button className="px-8 py-3 bg-primary cursor-pointer text-white font-bold ">
-              QUAY LẠI TRANG CHỦ
-            </button>
-          </Link>
+        <div className="flex justify-end my-4">
+
+          <button onClick={() => { navigate(-1) }} className="px-8 py-3 bg-primary cursor-pointer text-white font-bold ">
+            QUAY LẠI
+          </button>
+
         </div>
       </main>
     </div>

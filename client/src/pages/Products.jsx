@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import renderSavedProduct from "../utils/renderSavedProduct";
 const Products = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product.products);
+  const { products, totalProduct } = useSelector((state) => state.product);
   const user = useSelector((state) => state.auth.user);
 
   const handleSortting = (event) => {
@@ -15,7 +15,7 @@ const Products = () => {
   };
   const [filters, setFilters] = useState({
     page: 1,
-    limit: 8,
+    pageItem: 9,
     date: "desc",
     type: "",
   });
@@ -68,26 +68,25 @@ const Products = () => {
             </div>
             <div className="mt-7 flex justify-center">
               <nav aria-label="Page navigation example">
-                <ul className="inline-flex -space-x-px">
-                  <li
+                <div className="inline-flex -space-x-px">
+                  <button
+                    disabled={filters.page <= 1}
                     onClick={() => {
                       handleChangePage(-1);
                     }}
+                    className="px-3 py-2 ml-0 leading-tight disabled:bg-gray-400/10  text-black bg-gray-400 border border-gray-300 rounded-l-lg hover:bg-gray-300 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                   >
-                    <span className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                      Previous
-                    </span>
-                  </li>
-                  <li
+                    Trang trước
+                  </button>
+                  <button
+                    disabled={filters.page * filters.pageItem >= totalProduct}
                     onClick={() => {
                       handleChangePage(1);
                     }}
-                  >
-                    <span className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                      Next
-                    </span>
-                  </li>
-                </ul>
+                    className=" px-3 py-2 leading-tight text-black disabled:bg-gray-400/10 bg-gray-400 border border-gray-300 rounded-r-lg hover:bg-gray-300 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Trang sau
+                  </button>
+                </div>
               </nav>
             </div>
           </div>

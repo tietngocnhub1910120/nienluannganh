@@ -30,6 +30,9 @@ const userSlice = createSlice({
         return order
       })
     },
+    setInitialCart: (state, actions) => {
+      state.cart = null
+    },
   },
 });
 
@@ -38,6 +41,7 @@ export const {
   updateProfileAction,
   // cart
   saveCartAction,
+  setInitialCart,
   // order
   saveOrderAction, updateStatusAction
 } = userSlice.actions;
