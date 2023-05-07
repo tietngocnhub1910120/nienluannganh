@@ -25,11 +25,16 @@ class ProductController {
         type: req.query.type,
       };
     }
-    const pageItem = req.query.pageItem || 8;
+    const pageItem = req.query.pageItem || 20;
     const page = req.query.page || 1;
     const sort = req.query.date || "desc";
 
     try {
+      const productCount = await Product.find({
+        title: new RegExp(title, "i"),
+      }).where(filter)
+
+
       const products = await Product.find({
         title: new RegExp(title, "i"),
       })
@@ -41,7 +46,7 @@ class ProductController {
       res.status(200).json({
         success: true,
         message: "Lấy danh sách sản phẩm thành công!",
-        countProducts: products.length,
+        countProducts: productCount.length,
         products,
       });
     } catch (error) {

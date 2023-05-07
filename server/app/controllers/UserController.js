@@ -34,7 +34,7 @@ class UserController {
       let user = {
         username,
         phone,
-        address,
+        address: address || '',
         avatar: avatar?.secure_url,
       };
       user = await User.findByIdAndUpdate(userId, user, {
