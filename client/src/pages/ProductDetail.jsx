@@ -160,10 +160,10 @@ const ProductDetail = () => {
                     <MdShoppingCart className="text-2xl" />
                     <span>Thêm vào giỏ</span>
                   </div>
-                  <div className="flex items-center bg-primary text-white w-full px-4 py-2 gap-2 cursor-pointer hover:bg-hover">
+                  {/* <div className="flex items-center bg-primary text-white w-full px-4 py-2 gap-2 cursor-pointer hover:bg-hover">
                     <MdDone className="text-2xl" />
                     <span>Mua ngay</span>
-                  </div>
+                  </div> */}
                 </div>
                 <div>
                   <p className="font-bold text-lg">

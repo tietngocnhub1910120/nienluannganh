@@ -14,6 +14,7 @@ const Purchase = () => {
   const { orders } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const [tabStatus, setTabStatus] = useState('');
+  const [selectId, setSelectId] = useState(null);
   const {
     isOpen: isOpenVerify,
     onOpen: onOpenVerify,
@@ -21,6 +22,7 @@ const Purchase = () => {
   } = useDisclosure();
   const handleCancelOrder = async (status, id) => {
     status && await cancelOrder(dispatch, id);
+    setTabStatus('Đã hủy')
   }
   useEffect(() => {
     const fetchProfile = async () => {
@@ -100,7 +102,10 @@ const Purchase = () => {
                       </button>
                     </Link>
                     {order.status === 'Chờ xác nhận' && <button
-                      onClick={onOpenVerify}
+                      onClick={() => {
+                        setSelectId(order._id)
+                        onOpenVerify()
+                      }}
                       className="mt-4 px-3 py-2 bg-rose-500 text-white cursor-pointer rounded mr-2">
                       Hủy đơn
                     </button>}
@@ -111,7 +116,7 @@ const Purchase = () => {
                       content={
                         <VerifyModal
                           handleVerify={handleCancelOrder}
-                          selectedId={order._id}
+                          selectedId={selectId}
                           hide={onCloseVerify}
                           title={"Hủy đơn hàng?"}
                         />

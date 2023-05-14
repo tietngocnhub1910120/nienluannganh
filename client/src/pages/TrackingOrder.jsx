@@ -172,10 +172,10 @@ const TrackingOrder = (props) => {
                   </p>
                   <p className="flex justify-between">
                     Phí giao hàng:{" "}
-                    <span className="font-semibold">{order?.COD.toLocaleString("en-US", {
+                    <span className="font-semibold">{order?.amount > 10000000 ? order?.COD.toLocaleString("en-US", {
                       style: "currency",
                       currency: "VND",
-                    })}</span>
+                    }) : 0}</span>
                   </p>
                   <p className="flex justify-between">
                     Phí thanh toán: <span className="font-semibold">0 VNĐ</span>

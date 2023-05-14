@@ -173,7 +173,7 @@ const Header = (props) => {
             </ul>
             <p className="text-sm">
               Miễn phí vận chuyển
-              <span className=" text-[#B49149]"> ĐƠN HÀNG TRÊN 5 TRIỆU</span>
+              <span className=" text-[#B49149]"> ĐƠN HÀNG TRÊN 10 TRIỆU</span>
             </p>
           </div>
           <div className=" relative">
